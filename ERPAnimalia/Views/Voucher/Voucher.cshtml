@@ -1,0 +1,311 @@
+﻿@using ERPAnimalia.Models;
+
+<!DOCTYPE html>
+
+@model ERPAnimalia.Models.VoucherDetailModel
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+
+    <link href="~/Content/gijgo/combined/gijgo.css" rel="stylesheet" />
+     <script src="~/Scripts/gijgo/combined/gijgo.js"></script>
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+   
+   
+    <script src="~/Scripts/gijgo/combined/gijgo.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <title>Factura</title>
+</head>
+<body>
+    
+    <script type="text/javascript">
+        var idProducto= new Array;
+        var isLoad;
+        var gridDetail;
+        $(document).ready(function () {
+            SaveEnabled();
+            $("#Descripcion1").autocomplete({
+                autoFocus: true,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Voucher/GetProduct",
+                        autoFocus: true,
+                        selectFirst: true,
+                        type: "POST", dataType: "json",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {                             
+                                var res = item.Descripcion1.concat(", ").concat(item.Marca).concat(", ").concat(item.SubCategoryName).concat(", ").concat( item.kg);
+                             
+                                return { label: res, value: item.IdProducto, };
+                               
+                                SaveEnabled();
+                            }));
+                        }
+                       
+                       
+                    });
+                },
+                select: function (event, ui) {
+                    $("#Descripcion1").val(ui.item.label); // display the selected text
+                    $("#IdProducto").val(ui.item.value);
+                    AddGrid();
+                    return false; 
+                },
+                focus: function (event, ui) {
+                    $("#Descripcion1").val(ui.item.label);
+                    $("#IdProducto").val(ui.item.value);
+                    return false;
+                     // Prevent the widget from inserting the value.
+                }
+            });
+
+         
+            gridDetail = $("#gridDetail").grid({
+                dataSource: "/Voucher/GetProductDetail",         
+                dataKey: "IdProduct",
+                uiLibrary: "bootstrap",
+                columns: [
+                    { field: "IdProduct", hidden: true },
+                    { field: "Codigo", title: "Código", sortable: true,align: 'center', width:50 },
+                    { field: "Descripcion1", title: "Descripcion1", sortable: true, width: 50 },
+                    { field: "Marca", title: "Marca", sortable: true,align: 'center', width: 50 },
+                    { field: "Category", title: "Categoria", sortable: true,align: 'center', width: 50 },
+                     { field:"SubCategory", title: "SubCategoría", sortable: true,align: 'center', width: 50 },
+                    { field: "kg", title: "Kg", sortable: true,align: 'center', width: 20 },
+                    { field: "PrecioVenta", title: "Precio Venta", sortable: true,align: 'center', width: 50 },
+                    { field: "Cantidad", title: "Cantidad", editor: true, align: 'center',width: 50 },
+                    { field: "Descuento", title: "Descuento", editor: true, align: 'center', width: 20 },
+                    { field: "Porcentage", title: "%", sortable: true, align: 'center',width: 20},
+                    { field: "Subtotal", title: "Subtotal", sortable: true, align: 'center', width: 50 },
+                    { width: 30, type: "icon", icon: "glyphicon-remove", align: 'center', events: { 'click': Delete } }
+                    
+                ],
+              
+               
+            });
+            gridDetail.on('cellDataChanged', function (e, $cell, column, record, oldValue, newValue) {
+                CalculateRow(record)
+            });
+
+
+
+            $('#Descripcion1').keypress(function (event) {
+                debugger;
+                if (event.keyCode == 13) {
+                    if ($("#Descripcion1").val() != "") {
+                      
+                        gridDetail.reload({ IdProducto: $("#IdProducto").val(), term: $("#Descripcion1").val(), cantidad: $("#Cantidad").val(), descuento: $("#Descuento").val() });
+                        SaveEnabled();
+                        $("#Descripcion1").val("");
+                    }
+                }
+            });
+
+            function AddGrid()
+            {
+                if ($("#Descripcion1").val() != "") {
+                    gridDetail.reload({ IdProducto: $("#IdProducto").val(), term: $("#Descripcion1").val(), cantidad: $("#Cantidad").val(), descuento: $("#Descuento").val() });
+                    SaveEnabled();
+                    $("#Descripcion1").val("");
+                }
+            }
+           
+            gridDetail.on('dataBound', function (e, records, totalRecords) {
+                GetTotal();
+                SaveEnabled();
+            });
+
+           $("#btnSave").on("click", Save);
+       });
+           
+            function CalculateRow(record) {
+                $.ajax({
+                    url: "/Voucher/GetSubtotal",
+                    type: "GET", dataType: "json",
+                    data: { idProduct: record.IdProduct, cantidad: record.Cantidad, descuento: record.Descuento },
+                   
+                    success: function (data) {
+                        debugger;
+                        gridDetail.reload();
+                        GetTotal(data);
+                    }
+                })
+                .fail(function (data) {
+                    debugger;
+                    alert('Error al borrar.');
+                });
+            }
+
+            function GetTotal()
+            {
+                
+                if (gridDetail.count() != 0) {
+                        var totalRows = gridDetail.count();
+                        var row = gridDetail.get(totalRows);
+                        $("#totalVoucher").val(row.Total);
+                    }
+            }
+
+            function Save() {
+                var client = $("#NombreCompleto").val();
+                var dateVoucher = $("#DateVoucher").val();             
+                var tipoComprobante = $("#TipoComprobante").val();
+                var formaPago = $("#formaDePago").val();
+                var notes = $("#notes").val();
+                
+                $.ajax({ url: "/Voucher/Save", type: "POST", data: { cliente: client, date: dateVoucher, comprobante: tipoComprobante, formaDePago: formaPago, notes:notes } })
+                    .done(function (data) {
+                        if (data != 'El comprobante fue guardado')
+                        {
+                            alert(data)
+                        }
+                        else
+                        { 
+                            gridDetail.clear();                                                
+                            $('#Descripcion1').val("");
+                            $('#totalVoucher').val("");
+
+                            
+                            alert(data);
+                        }
+                       
+
+                    })
+                    .fail(function (data) {
+                     
+                        alert(data);                      
+                    }); 
+            }
+            function SaveEnabled()
+            {
+                if (gridDetail != 'undefine' &&  $("#NombreCompleto").val() != '')
+                {
+                    if (gridDetail.count() != 0)
+                    {
+                        btnSave.disabled = false;
+                    }
+                    else {
+                        btnSave.disabled = true;
+                    }
+                   
+                }
+                else
+                {
+                    btnSave.disabled = true;
+                }
+                
+            }
+            
+            function Delete(e) {
+                debugger;
+                if (confirm('Esta Seguro que va a eliminar?')) {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    $.ajax({ url: '/Voucher/Delete', data: { idProduct: e.data.record.IdProduct }, method: 'POST' })
+                        .done(function (data) {
+                            debugger;
+                            gridDetail.reload();
+                            if (data == '0')
+                            {
+                                 $("#totalVoucher").val(0);
+                             }
+                               else {
+                            
+                                  GetTotal(data);
+                               }
+                        })
+                        .fail(function () {
+                            alert('Error al borrar.');
+                        });
+                    GetTotal();
+                }
+            }
+            //    if (confirm('Esta seguro que quiere eliminar?')) {
+            //        debugger;
+            //    $.ajax({
+            //        url: "/Voucher/Delete",
+            //        type: "post", dataType: "json",
+            //        data: { idProduct: e.data.record.IdProduct },
+            //        .done: function (data) {
+            //            debugger;
+            //            gridDetail.reload();
+            //            if (data == '0') {
+            //                $("#totalVoucher").val(0);
+            //            }
+            //            else {
+                            
+            //                //GetTotal(data);
+            //            }
+                        
+            //        }                   
+            //    });
+            //    //GetTotal();
+            //   }
+            //}
+    </script>
+    <div class="container-fluid">
+        @{
+            Html.RenderPartial("HeadVoucher");
+        }
+
+        <!-- Nav tabs -->
+        <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#productTab" aria-controls="productoTab" role="tab" data-toggle="tab">Producto</a>
+                </li>
+                <li role="presentation">
+                    <a href="#informationTab" aria-controls="informationTab" role="tab" data-toggle="tab">Información</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="productTab">
+                    <h4>Datos</h4>
+                    <form class="form-horizontal">
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="control-label col-md-2">Producto:</label>
+                                @Html.HiddenFor(model => model.ProductModel.First().IdProducto)
+                                @Html.EditorFor(model => model.ProductModel.First().Descripcion1, new { htmlAttributes = new { @class = "form-control col-md-offset-3" } })
+                            </div>
+                        </div>
+                        </br>
+                        </br>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="gridDetail"></table>
+                                    </br>
+                                    <div id="total">
+                                        <input type="text" id="totalVoucher" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+</form>
+                </div>
+                    <div role="tabpanel" class="tab-pane" id="informationTab">
+                        </br>
+                        <h4>Notas</h4>
+                        <div class="col-md-12">
+                         <textarea class="textareaNote" id="notes" rows="6" cols="50">
+                        </textarea>
+                        </div>
+                    </div>
+                    
+                
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnSave" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

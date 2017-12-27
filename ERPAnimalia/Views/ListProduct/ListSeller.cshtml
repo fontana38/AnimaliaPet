@@ -1,0 +1,111 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lista de Produtos</title>
+
+    <script src="~/Scripts/gijgo/combined/gijgo.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <link href="~/Content/css/product.css" rel="stylesheet" />
+</head>
+<body>
+    <script type="text/javascript">
+        var gridProduct;
+
+        $(document).ready(function () {
+
+             gridProduct = $("#gridProduct").grid({
+                 dataKey: "IdProducto",
+                 fixedHeader: true,
+                uiLibrary: "bootstrap",
+                columns: [
+                { field: "IdProducto", hidden: true },
+                { field: "CodigoBarra", title: "Código de Barra", sortable: true, width: 90 },
+                { field: "Codigo", title: "Código", sortable: true, width: 80 },
+                { field: "Marca", title: "Marca", sortable: true, width: 80 },
+                { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 80 },
+                { field: "Descripcion2", title: "Descripcion 2", sortable: true, width: 80 },
+                { field: "SubCategoryName", title: "SubCategoria", sortable: true, width: 80 },
+                { field:"CategoryName", title: "Categoria", sortable: true, width: 80 },
+                { field: "kg", title: "Kg", sortable: true, width: 30 },
+                { field: "Cantidad", title: "Cant.", sortable: true, width: 40 },
+                { field: "PrecioVenta", title: "Precio Venta", cssClass: 'colVenta', sortable: true, width: 50 },
+                { field: "PrecioCosto", title: "Precio Costo",cssClass: 'colCosto', sortable: true, width: 50 },
+                { field: "RentabilidadPesos", title: "Renab$", sortable: true, width: 50 },
+                { field: "Rentabilidad", title: "Renab%", sortable: true, width: 50 },
+                ],
+                pager: { limit: 40, sizes: [2, 5, 10, 20] }
+            });
+
+            $("#btnSearch").on("click", Search);
+            $("#btnSearchDescription2").on("click", SearchDescription2);
+
+            $('#search').keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#btnSearch").click();
+                }
+            });
+
+            $('#searchDescription2').keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#btnSearchDescription2").click();
+                }
+            });
+
+        });
+
+
+
+        function Search() {
+
+            gridProduct.reload({ searchString: $("#search").val(),searchStringSub: $("#searchDescription2").val() });
+        }
+
+        function SearchDescription2() {
+
+            gridProduct.reload({ searchStringSub: $("#searchDescription2").val(), searchString: $("#search").val() });
+        }
+
+
+
+    </script>
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Producto</div>
+        <div class="panel-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <input type="text" id="search" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button type="button" id="btnSearch" class="btn btn-default">Go!</button>
+                        </span>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <input type="text" id="searchDescription2" class="form-control" placeholder="Descripción 2 (correa,collar,perro,gato)...">
+                        <span class="input-group-btn">
+                            <button type="button" id="btnSearchDescription2" class="btn btn-default">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="container-fluid">
+            <div class="row">
+                <table id="gridProduct" data-source="@Url.Action("GetProduct")"></table>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "AnimaliaReporting", "AnimaliaReporting\AnimaliaReporting.rptproj", "{3819F335-80A6-4320-A4D6-E9E087A8BF7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3819F335-80A6-4320-A4D6-E9E087A8BF7F}.Debug|Default.ActiveCfg = Debug
+		{3819F335-80A6-4320-A4D6-E9E087A8BF7F}.Debug|Default.Build.0 = Debug
+		{3819F335-80A6-4320-A4D6-E9E087A8BF7F}.Debug|Default.Deploy.0 = Debug
+		{3819F335-80A6-4320-A4D6-E9E087A8BF7F}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{3819F335-80A6-4320-A4D6-E9E087A8BF7F}.DebugLocal|Default.Build.0 = DebugLocal
+		{3819F335-80A6-4320-A4D6-E9E087A8BF7F}.Release|Default.ActiveCfg = Release
+		{3819F335-80A6-4320-A4D6-E9E087A8BF7F}.Release|Default.Build.0 = Release
+		{3819F335-80A6-4320-A4D6-E9E087A8BF7F}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {721C8CB5-9CC8-4268-B84C-920D80BC64E2}
+	EndGlobalSection
+EndGlobal

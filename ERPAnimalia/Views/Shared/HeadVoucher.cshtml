@@ -1,0 +1,119 @@
+﻿@using ERPAnimalia.Models;
+<!DOCTYPE html>
+<head>
+    @model ERPAnimalia.Models.VoucherDetailModel
+    <link href="~/Content/css/Voucher.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+ 
+
+</head>
+
+
+    <script type="text/javascript">
+       
+        $(document).ready(function () {
+
+            
+                $("#NombreCompleto").autocomplete({
+                    source: function (request, response) {              
+                        $.ajax({
+                            url: "/Voucher/GetClient",
+                            type: "POST", dataType: "json",
+                            data: { term: request.term },
+                            success: function (data) {
+                       
+                                response($.map(data, function (item) { 
+                          
+                                    return { label: item.NombreCompleto, value: item.NombreCompleto };
+                           
+                                }));
+                            }
+                        });
+                        SaveEnabled();
+                    },
+                    messages: { noResults: "", results: "" }
+                });
+
+            
+       
+        var $j = jQuery.noConflict();
+                $j('#DateVoucher').datepicker({
+                    dateFormat: "dd-mm-yy",
+                    firstDay: 1,
+                    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                    dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                    monthNames:
+                        ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                        "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthNamesShort:
+                        ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+                });
+
+                $j.datepicker.setDefaults($.datepicker.regional["es"]);
+
+                $j("#DateVoucher").datepicker("setDate", new Date());
+
+        //        $('#NombreCompleto').blur(function () {
+        //            var term = $("#NombreCompleto").val();
+        //            $.ajax({
+        //                url: "/Voucher/GetClientSelect",
+        //                type: "POST", dataType: "json",
+        //                data: { term: term },
+        //                success: function (data) {
+        //                    $('#idDireccion').html('Dirección: ' + data[0].Direccion);
+        //                    $('#idTelefono').html('Tel: ' + data[0].Telefono);
+        //                }
+        //            });
+        //});    
+    });
+
+
+    </script>
+
+    <div id="factura" class="panel panel-primary-factura">
+    <div class="panel-heading">Crear Factura</div>
+    <br class="panel-body">
+        <form  class="container-fluid" action="HeadVoucher">
+            <div class="form-group">
+                <label class="control-label col-md-2" for="cliente">Cliente:</label>
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.clientModel.First().NombreCompleto, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Cliente")'">Agregar Cliente</button>
+                    </div>
+                    </div>
+                <br />
+                <label class="label label-primary col-md-5" id="idTelefono"></label><div class="col-md-1"></div><label class="label label-primary col-md-5" id="idDireccion"></label>
+                <br />
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2" for="DateVoucher">Fecha</label>
+                <input type="text" class="datepicker" data-date-format="mm/dd/yyyy" id="DateVoucher" placeholder="Ingrese Fecha">
+            </div>
+              
+                <div class="form-group">
+
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Tipo Comprobante:</label>
+                    @Html.DropDownList("TipoComprobante", new SelectList((System.Collections.IEnumerable)ViewData["listTipoComprobante"], "IdTipoComprobante ", "Descripcion"), new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">forma Pago:</label>
+                    @Html.DropDownList("formaDePago", new SelectList((System.Collections.IEnumerable)ViewData["listFormaPAgo"], "IdFormaDePago", "Descripcion"), new { @class = "form-control" })
+                </div>
+              
+
+</form>
+</div>
+ 
+
+
+
+    
+
+

@@ -1,0 +1,458 @@
+﻿
+<!DOCTYPE html >
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Agregar Clientes</title>
+    <script src="~/Scripts/gijgo/combined/gijgo.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+     <script type="text/javascript">
+
+         ids = new Array();
+         idProduct = new Array();
+         idRowProduct = new Array();
+         var idCheck;
+            var grid;
+            var gridProduct;
+           
+            $(document).ready(function () {
+                debugger;
+                $('#fechaCompra').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    firstDay: 1,
+                    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                    dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                    monthNames:
+                        ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                        "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthNamesShort:
+                        ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+                });
+
+                $('#fechaProximaCompra').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    firstDay: 1,
+                    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                    dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                    monthNames:
+                        ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                        "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthNamesShort:
+                        ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+                });
+
+                $.datepicker.setDefaults($.datepicker.regional["es"]);
+                
+
+                gridProduct = $("#gridProduct").grid({
+                    dataKey: "Id",
+                    uiLibrary: "bootstrap",
+                    columns: [
+                       
+                        { field: "IdProducto", hidden: true },
+                        { field: "Codigo", title: "Código", sortable: true, width: 80 },
+                        { field: "Marca", title: "Marca", sortable: true, width: 150 },
+                        { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 200 },
+                        { field: "Descripcion2", title: "Descripcion 2", sortable: true, width: 200}
+                    ],
+                    selectionMethod: 'checkbox',
+                    selectionType: 'multiple',
+                    pager: { enable: true, limit: 5, sizes: [2, 5, 10, 20] }
+                });
+                
+                grid = $("#grid").grid({
+                    dataKey: "Id",
+                    uiLibrary: "bootstrap",
+                    columns: [
+                        { field: "IdCliente", hidden: true },
+                        { field: "Codigo", title: "Código", sortable: true, width: 80 },
+                        { field: "Nombre", sortable: true, width: 80 },
+                        { field: "Apellido", sortable: true, width: 80 },
+                        { field: "Direccion", title: "Dirección", sortable: true, width: 80 },
+                        { field: "Telefono", sortable: true, width: 100 },
+                         { field: "Mail", sortable: true, width: 100 },
+                        { field: "Mascota", sortable: true, width: 100 },
+                        { field: "FechaCompra", title: "Compra", type: 'date', format: 'dd/mm/yyyy', sortable: true, width: 80 },
+                        { field: "FechaProximaCompra", title: "Proxima Compra", type: 'date', format: 'dd/mm/yyyy', sortable: true, width: 80 },
+                       
+                        { title: "", field: "Edit", width: 34, type: "icon", icon: "glyphicon-pencil", tooltip: "Edit", events: { "click": Edit } },
+                        { title: "", field: "Delete", width: 34, type: "icon", icon: "glyphicon-remove", tooltip: "Delete", events: { "click": Remove } }
+                    ],
+                    pager: { enable: true, limit: 5, sizes: [2, 5, 10, 20] }
+                });
+                grid.on('rowSelect', function (e, $row, id, record) {
+                    debugger;
+                    idCheck = record.IdCliente;
+                    gridProductDetail.clear();
+                    gridProductDetail.reload({ idCliente: record.IdCliente, page: 1 });
+                });
+               
+                gridProductDetail = $("#gridProductDetail").grid({
+                    dataKey: "Id",
+                    uiLibrary: "bootstrap",
+                    columns: [
+                        { field: "id", hidden: true },
+                        { field: "IdProducto", hidden: true },
+                        { field: "Codigo", title: "Código", sortable: true, width: 80 },
+                        { field: "Marca", title: "Marca", sortable: true, width: 150 },
+                        { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 200 },
+                        { field: "Descripcion2", title: "Descripcion 2", sortable: true, width: 200 },
+                    { title: "", field: "Delete", width: 34, type: "icon", icon: "glyphicon-remove", tooltip: "Delete", events: { "click": RemoveProduct } }
+                    ],
+                   
+                    pager: { enable: true, limit: 5, sizes: [2, 5, 10, 20] }
+                });
+
+
+                $("#btnAddCliente").on("click", Add);
+                $("#btnSave").on("click", Save);
+                $("#btnSearch").on("click", Search);
+                $("#btnSearchGridProduct").on("click", SearchProduct);
+
+
+
+                function Search() {
+                    debugger;
+                    grid.reload({ searchString: $("#search").val() });
+                }
+
+                function SearchProduct() {
+                    debugger;
+                    gridProduct.reload({ searchString: $("#searchProduct").val() });
+                }
+
+                $('#search').keypress(function (event) {
+                    debugger;
+                    if (event.keyCode == 13) {
+                        $("#btnSearch").click();
+                    }
+                });
+
+                $('#searchProduct').keypress(function (event) {
+                    if (event.keyCode == 13) {
+                        $("#btnSearchGridProduct").click();                     
+                    }
+                });
+
+
+            });
+
+            function Edit(e) {
+               
+                debugger;
+                var dateNext = e.data.record.FechaProximaCompra;
+                var dateBuy = e.data.record.FechaCompra;
+
+                var dateString = dateNext.substr(6);
+                var currentTime = new Date(parseInt(dateString));
+                var month = ("0" + (currentTime.getMonth() + 1)).slice(-2);
+                var day = ("0" + currentTime.getDate()).slice(-2);
+                var year = currentTime.getFullYear();
+                var date = day + '-' + month + '-' + year;
+
+                var dateStringBuy = dateBuy.substr(6);
+                var currentTimeBuy = new Date(parseInt(dateStringBuy));
+                var monthbuy = ("0" + (currentTimeBuy.getMonth() + 1)).slice(-2);
+                var dayBuy = ("0" + currentTime.getDate()).slice(-2);
+                var yearBuy = currentTime.getFullYear();
+                var dateBuy = dayBuy + '-' + monthbuy + '-' + yearBuy;
+
+                $("#idCliente").val(e.data.record.IdCliente);
+                $("#codigo").val(e.data.record.Codigo);
+                $("#fechaProximaCompra").val(date);
+                $("#fechaCompra").val(dateBuy);
+
+                $("#nombre").val(e.data.record.Nombre);
+                $("#apellido").val(e.data.record.Apellido);
+                $("#direccion").val(e.data.record.Direccion);
+                $("#telefono").val(e.data.record.Telefono);
+                $("#mail").val(e.data.record.Mail);
+                $("#IdProducto").val(e.data.record.IdProducto);
+                $("#mascota").val(e.data.record.Mascota);
+                $("#dias").val(e.data.record.Dias)
+
+                gridProduct.clear();
+                gridProduct.reload({ idCliente: e.data.record.IdCliente });
+               
+ 
+                $("#clienteModal").modal("show");
+            }
+          
+         
+            
+
+            function Add() {
+                debugger;
+                $("#idCliene").val("");              
+                $("#codigo").val("");             
+                $("#nombre").val("");
+                $("#apellido").val("");
+                $("#direccion").val(""); 
+                $("#telefono").val("");
+                $("#mail").val("");
+                $("#mascota").val("");
+                $("#dias").val("")
+                gridProduct.clear();
+                gridProduct.reload({ idCliente: $("#idCliene").val() });
+                $("#clienteModal").modal("show");
+            }
+
+            function Save() {
+               
+                if (SaveValidation())
+                {
+                    debugger;
+                    var idProducto = new Array();
+                    debugger;
+                    var selections = gridProduct.getSelections();
+                    if (selections.length!= 0)
+                    {
+                       
+                        $(selections).each(function (index, element) {
+                            debugger;
+                            var row = gridProduct.get(element);
+                            idProducto[index] = row.IdProducto;                           
+                        });
+                    }
+                    var cliente = {
+                        IdCliente: $("#idCliente").val(),
+                        Codigo: $("#codigo").val(),
+                        FechaCompra1: $("#fechaCompra").val(),
+                        FechaCompra2: $("#fechaProximaCompra").val(),
+                        Nombre: $("#nombre").val(),
+                        Apellido: $("#apellido").val(),
+                        Direccion: $("#direccion").val(),
+                        Telefono: $("#telefono").val(),
+                        Mail: $("#mail").val(),
+                        Mascota: $("#mascota").val(),
+                        IdsProduct: idProducto,
+                        dias: $("#dias").val()
+
+                    };
+
+                    $.ajax({ url: "Cliente/Save", type: "POST", data: { cliente: cliente } })
+                        .done(function () {
+                          
+                            grid.reload();
+                            gridProductDetail.reload();
+                            $("#clienteModal").modal("hide");
+                        })
+                        .fail(function () {
+                         
+                            alert("Ocurrió un error al guardar el cliente ");
+
+                            $("#clienteModal").modal("hide");
+                        });
+                }
+            }
+
+
+            function Remove(e) {
+
+                $.ajax({ url: "Cliente/Remove", type: "POST", data: { idCliente: e.data.record.IdCliente } })
+                    .done(function () {
+                        grid.reload();
+                        gridProductDetail.reload();
+                    })
+                    .fail(function () {
+                        alert("Error al eleiminar");
+                    });
+            }
+
+
+            function RemoveProduct(e) {
+                debugger;
+                $.ajax({ url: "Cliente/RemoveProduct", type: "POST", data: { idCliente: idCheck, idProducto: e.data.record.IdProducto } })
+
+                    .done(function () {
+                        debugger;
+                        gridProductDetail.reload();
+                    })
+                    .fail(function () {
+                        alert("Error al eleiminar");
+                    });
+            }
+
+
+            function CalculateDate() {
+                debugger;
+                
+                var dateStringSelected = $('#fechaCompra').val();
+
+                var ds = dateStringSelected.split("/");
+                var startDate = new Date(ds[2], ds[1] - 1, ds[0]);
+                var days = $("#dias").val();
+
+                var daysAhead = days;
+                startDate.setTime(startDate.getTime() + (daysAhead * 24 * 60 * 60 * 1000));
+                var futureDate = startDate.getDate() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getFullYear();
+                futureDate = futureDate.replace(/^(\d{1}\/)/, "0$1").replace(/(\d{2}\/)(\d{1}\/)/, "$10$2");
+
+                $("#fechaProximaCompra").val(futureDate);
+
+            }
+
+            function  SaveValidation()
+            {
+                if($("#codigo").val()==""  || $("#apellido").val()=="" || $("#direccion").val()=="")
+                {
+
+                   alert("Complete los campos necesarios para poder guardar.Codigo,nombre,apellido,direccion y dias")
+                    return false;
+                }
+                else
+                {                
+                    return true;
+                }
+
+            }
+        </script>
+
+</head>
+<body>
+    
+    <div class="panel panel-primary">
+        <div class="panel-heading">Cliente</div>
+        <div class="panel-body">
+        <div class="form-group row">
+            <div class="col-md-2 col-md-offset-1">
+                <div class="input-group">
+                    <input type="text" id="search" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button type="button" id="btnSearch" class="btn btn-default">Go!</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="button" id="btnAddCliente" class="btn btn-primary pull-right">Agregar Cliente</button>
+            </div>
+        </div>
+        <br />
+
+        <table id="grid" data-source="@Url.Action("GetCliente")"></table>
+        <br />
+        <table id="gridProductDetail" data-source="@Url.Action("GetProductByIdClient")" ></table>
+    </div>
+ 
+    
+        <!-- Modal -->
+        <div class="modal fade" id="clienteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div id="modalDialog" class="modal-dialog">
+                <div class="modal-content">
+                   
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Cliente</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Nav tabs -->
+                        <div role="tabpanel">
+                           
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#clienteTab" aria-controls="clienteTab" role="tab" data-toggle="tab">Cliente</a>
+
+                                </li>
+                                <li role="presentation">
+                                    <a href="#productoTab" aria-controls="productoTab" role="tab" data-toggle="tab">Producto</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="clienteTab">
+                                    <br />
+                                    <form id="loginForm" data-toggle="validator" role="form">
+                                        <input type="hidden" id="idCliente" />
+                                        <div class="form-group">
+                                            <label for="name">Código</label>
+                                            <input type="text" class="form-control" id="codigo" placeholder="Ingrese el Código">
+                                            <span class="error">Debe ingresar un código</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Nombre</label>
+                                            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre">
+                                            <span class="error">Debe ingresar un nombre</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="apellido">Apellido</label>
+                                            <input type="text" class="form-control" id="apellido" placeholder="Ingrese el Apellido">
+                                            <span class="error">Debe ingresar un apellido</span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="direccion">Dirección</label>
+                                            <input type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección">
+                                            <span class="error">Debe ingresar una dirección</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="control-label">Email</label>
+                                            <input type="email" class="form-control" id="mail" placeholder="Email" data-error="El mail es inválido" required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                      
+                                        <div class="form-group">
+                                            <label for="direccion">Mascota</label>
+                                            <input type="text" class="form-control" id="mascota" placeholder="Ingrese la Mascota">
+                                            <span class="error">Debe ingresar una mascota</span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="fechaCompra">Fecha de Compra</label></br>
+                                            <input size="50" type="text" class="datepicker"  id="fechaCompra" placeholder="Ingrese Fecha de Compra">
+                                            <span class="error">Debe ingresar una fecha</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dias">Días Próxima Compra</label></br>
+                                            <input type="number" min="0" onchange="CalculateDate()" class="form-control" id="dias" placeholder="Ingrese cantidad días">
+                                            <span class="error">Debe ingresar un numero</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fechaProximaCompra">Fecha Próxima Compra</label></br>
+                                            <input type="text" size="50" class="datepicker"  id="fechaProximaCompra" placeholder="Ingrese Fecha Próxima Compra">
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="telefono">Teléfono</label>
+                                            <input type="text" class="form-control" id="telefono" placeholder="Ingrese Teléfono">
+                                            <span class="error">Debe ingresar un teléfono</span>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="productoTab">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-5">
+
+                                            <div class="input-group">
+                                                <input type="text" id="searchProduct" class="form-control" placeholder="Search for...">
+                                                <span class="input-group-btn">
+                                                    <button type="button" id="btnSearchGridProduct" class="btn btn-default">Go!</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table id="gridProduct" data-source="@Url.Action("GetProduct")"></table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" id="btnSave" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</body>
+</html>

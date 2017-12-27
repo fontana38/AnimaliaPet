@@ -1,0 +1,50 @@
+﻿
+input{
+
+    height:30px !important;
+}
+
+#factura
+{
+    width: 100% !important;
+}
+
+#loadOrderPanel
+{
+    width:1300px  !important;
+}
+.panel-heading
+{
+    background-image: linear-gradient(to bottom,#337ab7 0,#2e6da4 100%);
+   color:white;
+}
+#total
+{
+    float:right;
+    background-color: #DF3A01;
+}
+#totalVoucher
+{
+    background-color: #DF3A01;
+    color:#F2F2F2;
+    text-align: center;
+}
+
+img {
+  
+  
+   margin-top: 50px; /* Half the height */
+    /* Half the width */
+}
+
+html, body, #wrapper {
+   height:100%;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   border: 0;
+}
+#wrapper td {
+   vertical-align: middle;
+   text-align: center;
+}

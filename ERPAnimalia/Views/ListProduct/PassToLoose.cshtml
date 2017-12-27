@@ -1,0 +1,185 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalle Producto</title>
+
+    <script src="~/Scripts/gijgo/combined/gijgo.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+
+     $(document).ready(function () {
+         gridProductBug = $("#gridProductBug").grid({
+             dataKey: "IdProducto",
+             uiLibrary: "bootstrap",
+             columns: [
+             { field: "IdProducto", hidden: true },
+             { field: "Codigo", title: "Código", sortable: true, width: 80 },
+             { field: "Marca", title: "Marca", sortable: true, width: 80 },
+             { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 100 },
+             { field: "Descripcion2", title: "Descripcion 2", sortable: true, width: 100 },
+              { field: "SubCategoryName", title: "SubCategoria", sortable: true, width: 50 },
+             { field: "CategoryName", title: "Categoria", sortable: true, width: 50 },
+             { field: "kg", title: "Kg", sortable: true, width: 40 },
+             { field: "Cantidad", title: "Stock Actual", sortable: true, width: 40 },
+             { field: "TotalKg", title: "Total Kg", sortable: true, width: 40 },
+             { field: "PrecioCosto", title: "Precio Costo", editor: true,sortable: true, width: 40 },
+             { field: "PrecioVenta", title: "Precio Venta",editor: true, sortable: true, width: 40 }
+
+             ],
+             selectionMethod: 'checkbox', 
+             pager: { enable: true, limit:30, sizes: [2, 5, 10, 20] }
+         });
+         
+
+         $("#btnSearchProductBug").on("click", SearchProductBug);
+         $("#btnSearchProductLoose").on("click", SearchProductLoose);
+         $("#btnSave").on("click", Save);
+
+         $('#searchLoose').keypress(function (event) {
+             debugger;
+             if (event.keyCode == 13) {
+                 $("#btnSearchProductLoose").click();
+             }
+         });
+
+         $('#searchBug').keypress(function (event) {
+             debugger;
+             if (event.keyCode == 13) {
+                 $("#btnSearchProductBug").click();
+             }
+         });
+
+
+             gridProductLoose = $("#gridProductLoose").grid({
+                 dataKey: "IdProducto",
+                 uiLibrary: "bootstrap",
+                 columns: [
+                 { field: "IdProducto", hidden: true },
+                 { field: "Codigo", title: "Código", sortable: true, width: 80 },
+                 { field: "Marca", title: "Marca", sortable: true, width: 80 },
+                 { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 100 },
+                 { field: "Descripcion2", title: "Descripcion 2", sortable: true, width: 100 },
+                 { field: "SubCategoryName", title: "SubCategoria", sortable: true, width: 50 },
+                 { field: "CategoryName", title: "Categoria", sortable: true, width: 50 },
+                 { field: "kg", title: "Kg", sortable: true, width: 40 },
+                 { field: "TotalKg", title: "Stock Actual", sortable: true, width: 40 },
+                 { field: "PrecioCosto", title: "Precio Costo", editor: true,sortable: true, width: 40 },
+                 { field: "PrecioVenta", title: "Precio Venta",editor: true, sortable: true, width: 40 }
+
+                 ],
+                 selectionMethod: 'checkbox', 
+                 pager: { enable: true, limit: 1000, sizes: [2, 5, 10, 20] }
+             });
+
+            
+             //gridProductLoose.on('cellDataChanged', function (e, $cell, column, record, oldValue, newValue) {
+             //    debugger;
+             //    CalculateTotal(record,e,$cell.length)
+             //});
+
+         });
+
+
+     function SearchProductLoose() {
+         gridProductLoose.reload({ searchString: $("#searchLoose").val() });
+         }
+
+         function SearchProductBug() {
+             gridProductBug.reload({ searchString: $("#searchBug").val() });
+         }
+
+
+         function Save() {
+            
+            
+             var rowSelectionsBug = gridProductBug.getSelections();
+             var rowSelectionsLoose = gridProductLoose.getSelections();
+             
+             if (rowSelectionsBug.length != 0 && rowSelectionsLoose.length  != 0 )
+             {
+                 var rowLoose= gridProductLoose.get(rowSelectionsLoose);
+                 var idLoose = rowLoose.IdProducto;
+                 var precioCosto = rowLoose.PrecioCosto;
+                 var precioVenta = rowLoose.PrecioVenta;
+                 
+
+                 var rowBug= gridProductBug.get(rowSelectionsBug);
+                 var idBug = rowBug.IdProducto;
+                    
+             }
+             else
+             {
+                return alert("Debe Seleccionar Un Producto");
+             }
+
+            
+             $.ajax({ url: "/ListProduct/Save", type: "POST", data: {idBug:idBug, idLoose: idLoose, precioCosto: precioCosto, precioVenta:precioVenta} })
+             
+                 .done(function (data) {
+                   
+                    
+                     alert("La orden fue guardad con éxito");
+                     gridProductLoose.reload();
+                     gridProductBug.reload();
+                    
+                 })
+                 .fail(function () {
+                     alert("Unable to save.");
+
+                 });
+         }
+
+        
+    </script>
+
+</head>
+<body>
+   
+        <div class="panel panel-primary">
+            <div class="panel-heading">Producto Bolsa</div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" id="searchBug" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button type="button" id="btnSearchProductBug" class="btn btn-default">Go!</button>
+                            </span>
+
+                        </div>
+                        <br />
+                        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Product")'">Agregar Producto</button>
+                        
+                    </div>
+                </div>
+
+                <br />
+                <table id="gridProductBug" data-source="@Url.Action("GetProductBug")"></table>
+            </div>
+            </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Producto Suelto</div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" id="searchLoose" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button type="button" id="btnSearchProductLoose" class="btn btn-default">Go!</button>
+                            </span>
+
+                        </div>
+                        <br />
+                        <button type="button" class="btn btn-primary" id="btnSave">Guardar</button>
+                    </div>
+                </div>
+
+                <table id="gridProductLoose" data-source="@Url.Action("GetProductLoose")"></table>
+            </div>
+        </div>
+        
+</body>
+</html>
