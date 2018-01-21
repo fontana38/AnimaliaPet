@@ -337,6 +337,11 @@ namespace ERPAnimalia
                 productDb.Marca = product.Marca;
                 productDb.Cantidad = product.Cantidad;
 
+                if(product.IdCategory == (int)Enumeration.Category.Accesorios)
+                {
+                    product.IdSubCategory = 3;
+                }
+
                 if (product.IdCategory != (int)Enumeration.Category.Accesorios)
                 {
                     productDb.Kg = product.kg;
