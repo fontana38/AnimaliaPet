@@ -232,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ClienteController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\ListProductController.cs" />
     <Compile Include="Controllers\ListVoucherController.cs" />
     <Compile Include="Controllers\LoadOrderController.cs" />
@@ -299,6 +300,9 @@
     <Compile Include="EntityFramework\FormaDePago.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\GetInvoice_Result.cs">
+      <DependentUpon>Animalias.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\IdClienteIdProducto.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
@@ -348,6 +352,7 @@
     </Compile>
     <Compile Include="Helper\CalCulos.cs" />
     <Compile Include="Helper\Common.cs" />
+    <Compile Include="Interfaces\Iinvoice.cs" />
     <Compile Include="Interfaces\ILoadOrderManager.cs" />
     <Compile Include="Interfaces\IProviderManager.cs" />
     <Compile Include="Interfaces\IVoucherDetailManager.cs" />
@@ -359,7 +364,9 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\DetailGrid.cs" />
+    <Compile Include="Models\InvoiceModel.cs" />
     <Compile Include="Models\Manager\HomeManager.cs" />
+    <Compile Include="Models\Manager\InvoiceManager.cs" />
     <Compile Include="Models\Manager\LoadOrderManager.cs" />
     <Compile Include="Models\Manager\ProviderManager.cs" />
     <Compile Include="Models\Manager\ReportVentas.cs" />
@@ -726,7 +733,7 @@
     <Content Include="Views\Provider\Provider.cshtml" />
     <Content Include="Views\ListProduct\PassToLoose.cshtml" />
     <Content Include="Views\ListProduct\ListSeller.cshtml" />
-    <Content Include="Views\Voucher\ListVoucher\ListVoucher.cshtml" />
+    <Content Include="Views\Invoice\ListInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

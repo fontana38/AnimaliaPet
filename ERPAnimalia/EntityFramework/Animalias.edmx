@@ -439,6 +439,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DateFrom" Type="datetime" Mode="In" />
+          <Parameter Name="DateTo" Type="datetime" Mode="In" />
+          <Parameter Name="IdCliente" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="VentaDiariaMes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="VentaMes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AnimaliaPetShopModelStoreContainer">
@@ -629,6 +634,11 @@
           </AssociationSet>
           <FunctionImport Name="VentaDiariaMes" ReturnType="Collection(AnimaliaPetShopModel.VentaDiariaMes_Result)" />
           <FunctionImport Name="VentaMes" ReturnType="Collection(AnimaliaPetShopModel.VentaMes_Result1)" />
+          <FunctionImport Name="GetInvoice" ReturnType="Collection(AnimaliaPetShopModel.GetInvoice_Result)">
+            <Parameter Name="DateFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="DateTo" Mode="In" Type="DateTime" />
+            <Parameter Name="IdCliente" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="FormaDePago">
           <Key>
@@ -1082,6 +1092,15 @@
         <ComplexType Name="VentaMes_Result1">
           <Property Type="Decimal" Name="Mes" Nullable="true" Precision="38" Scale="4" />
         </ComplexType>
+        <ComplexType Name="GetInvoice_Result">
+          <Property Type="Guid" Name="IdCliente" Nullable="true" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="102" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Comentario" Nullable="true" />
+          <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="String" Name="FormaDePago" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TipoComprobante" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1329,6 +1348,19 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="AnimaliaPetShopModel.VentaMes_Result1">
                 <ScalarProperty Name="Mes" ColumnName="Mes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetInvoice" FunctionName="AnimaliaPetShopModel.Store.GetInvoice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AnimaliaPetShopModel.GetInvoice_Result">
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="FormaDePago" ColumnName="FormaDePago" />
+                <ScalarProperty Name="TipoComprobante" ColumnName="TipoComprobante" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -55,6 +55,13 @@ namespace ERPAnimalia.Factory
             
         }
 
+        public static InvoiceManager CreateInvoiceManager()
+        {
+
+            return new InvoiceManager();
+
+        }
+
         public static Product CreateProductdb()
         {
           

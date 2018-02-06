@@ -411,6 +411,21 @@ namespace ERPAnimalia
                 throw new Exception(e.Message.ToString());
             }
         }
+
+        public static List<InvoiceModel> CreateListInvoiceModel(List<GetInvoice_Result> listInvoice)
+        {
+            try
+            {
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                var invoice = mapper.Map<List<InvoiceModel>>(listInvoice);
+                
+                return invoice;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message.ToString());
+            }
+        }
         public static List<DetalleComprobante> CreateVoucherDetailDb(List<VoucherDetailModel> voucherDetail)
         {
             try

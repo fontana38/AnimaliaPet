@@ -1,0 +1,145 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <script src="~/Scripts/gijgo/combined/gijgo.js"></script>
+  
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <link href="~/Content/css/product.css" rel="stylesheet" />
+</head>
+<body>
+    <script type="text/javascript">
+        var gridInvoice;
+
+        $(document).ready(function () {
+           
+            gridInvoice = $("#gridInvoice").grid({
+                 dataKey: "IdComprobante",
+                 fixedHeader: true,
+                uiLibrary: "bootstrap",
+                columns: [
+                { field: "Fecha", title: "Fecha", type: 'date', format: 'dd/mm/yyyy', sortable: true, width: 80 },
+                   { field: "TipoComprobante", title: "Tipo Comprobante", sortable: true, width: 90 },
+                { field: "IdComprobante", hidden: true },
+                { field: "FormaDePago", title: "Forma de Pago", sortable: true, width: 90 },             
+                { field: "Cliente", title: "Cliente", sortable: true, width: 80 },
+                { field: "Total", title: "Total", sortable: true, width: 80 },
+                {
+                    width: 30,  type: "icon", icon: "glyphicon-remove", align: 'center', events: {
+                        'click': function (e) {
+                            id = e.data.record.IdComprobante;
+                            location.href = '@Url.Action("","")?id=' + id;
+                        }
+                    }
+                }
+                ],
+                pager: { limit: 40, sizes: [2, 5, 10, 20] }
+            });
+            $("#btnSearch").on("click", Search);
+            $('#DateInvoiceTo').keypress(function (event) {
+                if (event.keyCode == 13) {
+                    Search();
+                }
+            });
+
+            $('#DateInvoiceFrom').keypress(function (event) {
+                if (event.keyCode == 13) {
+                    Search();
+                }
+            });
+
+          
+            $('#DateInvoiceFrom').datepicker({
+                dateFormat: "dd-mm-yy",
+                firstDay: 1,
+                dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                monthNames:
+                    ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                    "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                monthNamesShort:
+                    ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+            });
+
+            $.datepicker.setDefaults($.datepicker.regional["es"]);
+
+            $("#DateInvoiceFrom").datepicker("setDate", new Date());
+
+
+
+
+
+            $('#DateInvoiceTo').datepicker({
+                dateFormat: "dd-mm-yy",
+                firstDay: 1,
+                dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                monthNames:
+                    ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                    "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                monthNamesShort:
+                    ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+            });
+
+            $.datepicker.setDefaults($.datepicker.regional["es"]);
+            var d = new Date();
+            d.setMonth(d.getMonth() + 1);
+            $("#DateInvoiceTo").datepicker('setDate', d);
+
+
+
+            function Search() {
+                debugger;
+                gridInvoice.reload({ dateInvoiceFrom: $("#DateInvoiceFrom").val(), dateInvoiceTo: $("#DateInvoiceTo").val() });
+            }
+        });
+
+
+
+
+    </script>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Producto</div>
+        <div class="panel-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="DateInvoiceFrom">Fecha desde</label>
+                            <input type="text" class="datepicker" data-date-format="mm/dd/yyyy" id="DateInvoiceFrom" placeholder="Ingrese Fecha">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="DateInvoiceTo">Fecha Hasta</label>
+                            <input type="text" class="datepicker" data-date-format="mm/dd/yyyy" id="DateInvoiceTo" placeholder="Ingrese Fecha">
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" id="search" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button type="button" id="btnSearch" class="btn btn-default">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+       
+        </div>
+        <br />
+        <div class="container-fluid">
+            <div class="row">
+                <table id="gridInvoice" data-source="@Url.Action("GetInvoice")"></table>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
