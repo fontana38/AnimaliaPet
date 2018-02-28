@@ -13,43 +13,60 @@
 <body>
     <script type="text/javascript">
         var gridInvoice;
+        var gridInvoiceDetail;
 
         $(document).ready(function () {
            
             gridInvoice = $("#gridInvoice").grid({
                  dataKey: "IdComprobante",
-                 fixedHeader: true,
                 uiLibrary: "bootstrap",
                 columns: [
                 { field: "Fecha", title: "Fecha", type: 'date', format: 'dd/mm/yyyy', sortable: true, width: 80 },
-                   { field: "TipoComprobante", title: "Tipo Comprobante", sortable: true, width: 90 },
+                { field: "TipoComprobante", title: "Tipo Comprobante", sortable: true, width: 90 },
                 { field: "IdComprobante", hidden: true },
                 { field: "FormaDePago", title: "Forma de Pago", sortable: true, width: 90 },             
                 { field: "Cliente", title: "Cliente", sortable: true, width: 80 },
-                { field: "Total", title: "Total", sortable: true, width: 80 },
-                {
-                    width: 30,  type: "icon", icon: "glyphicon-remove", align: 'center', events: {
-                        'click': function (e) {
-                            id = e.data.record.IdComprobante;
-                            location.href = '@Url.Action("","")?id=' + id;
-                        }
-                    }
-                }
+                { field: "Total", title: "Total", sortable: true, width: 80 }
+               
                 ],
-                pager: { limit: 40, sizes: [2, 5, 10, 20] }
-            });
-            $("#btnSearch").on("click", Search);
-            $('#DateInvoiceTo').keypress(function (event) {
-                if (event.keyCode == 13) {
-                    Search();
-                }
+                pager: { enable: true, limit: 10, sizes: [2, 5, 10, 20] }
             });
 
-            $('#DateInvoiceFrom').keypress(function (event) {
-                if (event.keyCode == 13) {
-                    Search();
-                }
+            gridInvoice.on('rowSelect', function (e, $row, id, record) {
+                debugger;
+                idCheck = record.IdComprobante;
+                gridInvoiceDetail.clear();
+                gridInvoiceDetail.reload({ IdComprobante: record.IdComprobante, page: 1 });
             });
+
+            gridInvoiceDetail = $("#gridInvoiceDetail").grid({
+                dataKey: "Id",
+                uiLibrary: "bootstrap",
+                columns: [
+                    { field: "IdDetalleComprobante", hidden: true },
+                    { field: "Descripcion1", title: "Producto", sortable: true, width: 200 },
+                    { field: "Cantidad", sortable: true, width: 80 },
+                    { field: "PrecioVenta", title: "Precio", sortable: true, width: 150 },
+                    { field: "Subtotal", title: "Subtotal", sortable: true, width: 200 },
+                   
+                ],
+
+                pager: { enable: true, limit: 5, sizes: [2, 5, 10, 20] }
+            });
+
+            $("#btnSearch").on("click", Search);
+
+            //$('#DateInvoiceTo').keypress(function (event) {
+            //    if (event.keyCode == 13) {
+            //        Search();
+            //    }
+            //});
+
+            //$('#DateInvoiceFrom').keypress(function (event) {
+            //    if (event.keyCode == 13) {
+            //        Search();
+            //    }
+            //});
 
           
             $('#DateInvoiceFrom').datepicker({
@@ -66,11 +83,12 @@
             });
 
             $.datepicker.setDefaults($.datepicker.regional["es"]);
+            var invoiceDate = new Date();
+            invoiceDate.setMonth(invoiceDate.getMonth() - 1);
 
-            $("#DateInvoiceFrom").datepicker("setDate", new Date());
+            $("#DateInvoiceFrom").datepicker('setDate', invoiceDate);
 
-
-
+          
 
 
             $('#DateInvoiceTo').datepicker({
@@ -91,54 +109,47 @@
             d.setMonth(d.getMonth() + 1);
             $("#DateInvoiceTo").datepicker('setDate', d);
 
-
-
             function Search() {
                 debugger;
-                gridInvoice.reload({ dateInvoiceFrom: $("#DateInvoiceFrom").val(), dateInvoiceTo: $("#DateInvoiceTo").val() });
+                var dateInvoiceFrom = $("#DateInvoiceFrom").val();
+                var dateInvoiceTo = $("#DateInvoiceTo").val();
+                gridInvoice.reload({ dateInvoiceFrom: dateInvoiceFrom, dateInvoiceTo: dateInvoiceTo });
             }
         });
-
-
-
 
     </script>
 
     <div class="panel panel-primary">
-        <div class="panel-heading">Producto</div>
+        <div class="panel-heading">Facturas</div>
         <div class="panel-body">
             <div class="form-group row">
                 <div class="col-md-3">
                     <div class="input-group">
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="DateInvoiceFrom">Fecha desde</label>
+                            <label class="control-label col-md-7" for="DateInvoiceFrom">Fecha desde</label>
                             <input type="text" class="datepicker" data-date-format="mm/dd/yyyy" id="DateInvoiceFrom" placeholder="Ingrese Fecha">
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="DateInvoiceTo">Fecha Hasta</label>
+                            <label class="control-label col-md-7" for="DateInvoiceTo">Fecha Hasta</label>
                             <input type="text" class="datepicker" data-date-format="mm/dd/yyyy" id="DateInvoiceTo" placeholder="Ingrese Fecha">
-                        </div>
-                        
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <input type="text" id="search" class="form-control" placeholder="Search for...">
-                            <span class="input-group-btn">
+                            <span>
                                 <button type="button" id="btnSearch" class="btn btn-default">Go!</button>
-                            </span>
+                            </span>  
                         </div>
-                    </div>
+                                        
+                      </div>
+                    
                 </div>
                 
             </div>
        
         </div>
         <br />
-        <div class="container-fluid">
-            <div class="row">
-                <table id="gridInvoice" data-source="@Url.Action("GetInvoice")"></table>
-            </div>
-        </div>
+       
+       <table id="gridInvoice" data-source="@Url.Action("GetInvoice")"></table>          
+       
+        <br />
+        <table id="gridInvoiceDetail" data-source="@Url.Action("GetDetailInvoice")"></table>
 
     </div>
 </body>

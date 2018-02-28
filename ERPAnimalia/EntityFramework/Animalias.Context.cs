@@ -74,21 +74,19 @@ public partial class AnimaliaPetShopEntities : DbContext
     public virtual DbSet<UsuarioRoles> UsuarioRoles { get; set; }
 
 
-    public virtual ObjectResult<VentaDiariaMes_Result> VentaDiariaMes()
+    public virtual ObjectResult<GetInvoiceDetail_Result> GetInvoiceDetail(Nullable<System.Guid> idComprobante)
     {
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaDiariaMes_Result>("VentaDiariaMes");
+        var idComprobanteParameter = idComprobante.HasValue ?
+            new ObjectParameter("idComprobante", idComprobante) :
+            new ObjectParameter("idComprobante", typeof(System.Guid));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceDetail_Result>("GetInvoiceDetail", idComprobanteParameter);
     }
 
 
-    public virtual ObjectResult<VentaMes_Result1> VentaMes()
-    {
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaMes_Result1>("VentaMes");
-    }
-
-
-    public virtual ObjectResult<GetInvoice_Result> GetInvoice(Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo, string idCliente)
+    public virtual ObjectResult<GetInvoice3_Result> GetInvoice3(Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo, string idCliente)
     {
 
         var dateFromParameter = dateFrom.HasValue ?
@@ -106,7 +104,21 @@ public partial class AnimaliaPetShopEntities : DbContext
             new ObjectParameter("IdCliente", typeof(string));
 
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoice_Result>("GetInvoice", dateFromParameter, dateToParameter, idClienteParameter);
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoice3_Result>("GetInvoice3", dateFromParameter, dateToParameter, idClienteParameter);
+    }
+
+
+    public virtual ObjectResult<VentaDiariaMes_Result1> VentaDiariaMes()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaDiariaMes_Result1>("VentaDiariaMes");
+    }
+
+
+    public virtual ObjectResult<VentaMes_Result2> VentaMes()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaMes_Result2>("VentaMes");
     }
 
 }

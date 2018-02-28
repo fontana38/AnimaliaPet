@@ -1,14 +1,22 @@
-﻿using System;
+﻿using ERPAnimalia.Models.Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ERPAnimalia.Models;
 
 namespace ERPAnimalia.Controllers
 {
     [RoutePrefix("Invoice")]
     public class InvoiceController : Controller
     {
+        public InvoiceManager ManagerInvoice { get; set; }
+
+        public InvoiceController()
+        {
+            ManagerInvoice = Factory.Factory.CreateInvoiceManager();
+        }
         // GET: Invoice
         [Route("ListaFactura")]
         public ActionResult ListInvoice()
@@ -17,14 +25,42 @@ namespace ERPAnimalia.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetInvoice(int? page, int? limit, string sortBy, string direction, DateTime? dateInvoiceFrom, DateTime? dateInvoiceTo, string idClient=null )
+        public JsonResult GetInvoice(int? page, int? limit, string sortBy, string direction, string dateInvoiceFrom=null, string dateInvoiceTo=null, string idClient=null )
         {
             int total = 20;
-            var manager = Factory.Factory.CreateInvoiceManager();
-            
-            var records = manager.GetInvoice(dateInvoiceFrom, dateInvoiceTo, idClient);
+            DateTime dateInvoice;
+            DateTime dateInvoiceNew;
+            List<InvoiceModel> records= new List<InvoiceModel>();
+
+            if (!string.IsNullOrEmpty(dateInvoiceTo) && !string.IsNullOrEmpty(dateInvoiceFrom))
+            {  
+                dateInvoice =  DateTime.Parse(dateInvoiceTo).Date;
+                dateInvoiceNew= DateTime.Parse(dateInvoiceFrom).Date;
+                records = ManagerInvoice.GetInvoice(dateInvoiceNew, dateInvoice, idClient);
+            }
+            else if (string.IsNullOrEmpty(dateInvoiceTo) && string.IsNullOrEmpty(dateInvoiceFrom))
+            {
+                dateInvoice = DateTime.Now.AddMonths(+1).Date;
+                dateInvoiceNew = DateTime.Now.AddMonths(-1).Date;
+                records = ManagerInvoice.GetInvoice(dateInvoiceNew, dateInvoice, idClient);
+            }
+
 
             return Json(new { records, total }, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpGet]
+        public JsonResult GetDetailInvoice(Guid? IdComprobante, int? page, int? limit, string sortBy, string direction, string searchString = null)
+        {
+            int total = 20;
+
+
+            var records = ManagerInvoice.GetDetailInvoice(IdComprobante);
+
+
+            return Json(new { records, total }, JsonRequestBehavior.AllowGet);
+        }
+       
     }
 }

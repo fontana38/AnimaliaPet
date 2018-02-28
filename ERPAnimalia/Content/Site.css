@@ -10,10 +10,7 @@
     padding: 0 15px;
    
 }
-#homeVenta
-{
-    margin-left:729px;
-}
+
 
 /*.container {
     width: 100% !important;
@@ -118,4 +115,31 @@ th{
 #providerTable{
    margin-left:25px;
 }
+#totalDivHome
+{
+    margin-top:200px;
+}
 
+#totalDivDia
+{
+    margin-left:635px;
+    margin-top: -50px;
+}
+
+#totalDivMes
+{
+    margin-left:40px;
+    margin-top: -50px;
+}
+#gridDiaSell
+{
+    margin-left:400px;
+    position: absolute;
+    margin-top: -60px;
+}
+#gridMesSell
+{
+    margin-left: 800px;
+    position: absolute;
+    margin-top: -60px;
+}

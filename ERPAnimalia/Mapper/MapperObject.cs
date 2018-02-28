@@ -412,7 +412,7 @@ namespace ERPAnimalia
             }
         }
 
-        public static List<InvoiceModel> CreateListInvoiceModel(List<GetInvoice_Result> listInvoice)
+        public static List<InvoiceModel> CreateListInvoiceModel(List<GetInvoice3_Result> listInvoice)
         {
             try
             {
@@ -420,6 +420,20 @@ namespace ERPAnimalia
                 var invoice = mapper.Map<List<InvoiceModel>>(listInvoice);
                 
                 return invoice;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message.ToString());
+            }
+        }
+        public static List<InvoiceDetailModel> CreateListDetailInvoiceModel(List<GetInvoiceDetail_Result> listDetailInvoice)
+        {
+            try
+            {
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                var invoiceDetail = mapper.Map<List<InvoiceDetailModel>>(listDetailInvoice);
+
+                return invoiceDetail;
             }
             catch (Exception e)
             {

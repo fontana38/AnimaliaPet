@@ -14,10 +14,24 @@ namespace ERPAnimalia.EntityFramework
 
 using System;
     
-public partial class VentaMes_Result1
+public partial class GetInvoice3_Result
 {
 
-    public Nullable<decimal> Mes { get; set; }
+    public Nullable<System.Guid> IdCliente { get; set; }
+
+    public string Cliente { get; set; }
+
+    public Nullable<System.DateTime> Fecha { get; set; }
+
+    public string Comentario { get; set; }
+
+    public Nullable<decimal> Total { get; set; }
+
+    public string FormaDePago { get; set; }
+
+    public string TipoComprobante { get; set; }
+
+    public System.Guid IdComprobante { get; set; }
 
 }
 

@@ -53,7 +53,7 @@ namespace ERPAnimalia.Controllers
             voucherModel.ClientModel = listClient;
 
             var clientName = (from N in listClient
-                              where (N.Nombre.ToUpper().StartsWith(term.ToUpper()) || N.Nombre.ToUpper().EndsWith(term.ToUpper()) )|| (N.Apellido.ToUpper().StartsWith(term.ToUpper()) || N.Apellido.ToUpper().EndsWith(term.ToUpper()))
+                              where  (N.Nombre !=null && N.Nombre.ToUpper().StartsWith(term.ToUpper()) ||N.Nombre!=null && N.Nombre.ToUpper().EndsWith(term.ToUpper()) )|| ( N.Apellido != null && N.Apellido.ToUpper().StartsWith(term.ToUpper()) || N.Apellido!=null && N.Apellido.ToUpper().EndsWith(term.ToUpper()))
                               select new {N.NombreCompleto,N.Direccion,N.Telefono }).ToList();
 
             return Json(clientName, JsonRequestBehavior.AllowGet);

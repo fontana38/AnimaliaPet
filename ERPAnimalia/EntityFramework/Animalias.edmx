@@ -83,7 +83,7 @@
           </Key>
           <Property Name="IdCliente" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
-          <Property Name="Direccion" Type="nvarchar" MaxLength="50" />
+          <Property Name="Direccion" Type="nvarchar(max)" />
           <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
           <Property Name="Apellido" Type="nvarchar" MaxLength="50" />
           <Property Name="Mascota" Type="nvarchar" MaxLength="50" />
@@ -444,6 +444,9 @@
           <Parameter Name="DateTo" Type="datetime" Mode="In" />
           <Parameter Name="IdCliente" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetInvoiceDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idComprobante" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="VentaDiariaMes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="VentaMes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AnimaliaPetShopModelStoreContainer">
@@ -632,13 +635,16 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="UsuarioRoles" EntitySet="UsuarioRoles" />
           </AssociationSet>
-          <FunctionImport Name="VentaDiariaMes" ReturnType="Collection(AnimaliaPetShopModel.VentaDiariaMes_Result)" />
-          <FunctionImport Name="VentaMes" ReturnType="Collection(AnimaliaPetShopModel.VentaMes_Result1)" />
-          <FunctionImport Name="GetInvoice" ReturnType="Collection(AnimaliaPetShopModel.GetInvoice_Result)">
+          <FunctionImport Name="GetInvoiceDetail" ReturnType="Collection(AnimaliaPetShopModel.GetInvoiceDetail_Result)">
+          <Parameter Name="idComprobante" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="GetInvoice3" ReturnType="Collection(AnimaliaPetShopModel.GetInvoice3_Result)">
             <Parameter Name="DateFrom" Mode="In" Type="DateTime" />
             <Parameter Name="DateTo" Mode="In" Type="DateTime" />
             <Parameter Name="IdCliente" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="VentaDiariaMes" ReturnType="Collection(AnimaliaPetShopModel.VentaDiariaMes_Result1)" />
+          <FunctionImport Name="VentaMes" ReturnType="Collection(AnimaliaPetShopModel.VentaMes_Result2)" />
           </EntityContainer>
         <EntityType Name="FormaDePago">
           <Key>
@@ -775,7 +781,7 @@
           </Key>
           <Property Name="IdCliente" Type="Guid" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Mascota" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1083,16 +1089,14 @@
         <ComplexType Name="VentaDiaria_Result">
           <Property Type="Decimal" Name="Dia" Nullable="true" Precision="38" Scale="4" />
         </ComplexType>
-        <ComplexType Name="VentaMes_Result">
-          <Property Type="Decimal" Name="Mes" Nullable="true" Precision="38" Scale="4" />
+        <ComplexType Name="GetInvoiceDetail_Result">
+          <Property Type="Decimal" Name="Cantidad" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Subtotal" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="PrecioVenta" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="String" Name="Descripcion1" Nullable="true" />
+          <Property Type="String" Name="Marca" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="VentaDiariaMes_Result">
-          <Property Type="Decimal" Name="Dia" Nullable="true" Precision="38" Scale="4" />
-        </ComplexType>
-        <ComplexType Name="VentaMes_Result1">
-          <Property Type="Decimal" Name="Mes" Nullable="true" Precision="38" Scale="4" />
-        </ComplexType>
-        <ComplexType Name="GetInvoice_Result">
+        <ComplexType Name="GetInvoice2_Result">
           <Property Type="Guid" Name="IdCliente" Nullable="true" />
           <Property Type="String" Name="Cliente" Nullable="true" MaxLength="102" />
           <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
@@ -1100,6 +1104,25 @@
           <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="4" />
           <Property Type="String" Name="FormaDePago" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TipoComprobante" Nullable="true" />
+          <Property Type="Guid" Name="IdComprobante" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetInvoice3_Result">
+          <Property Type="Guid" Name="IdCliente" Nullable="true" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="102" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Comentario" Nullable="true" />
+          <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="String" Name="FormaDePago" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TipoComprobante" Nullable="true" />
+          <Property Type="Guid" Name="IdComprobante" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="VentaDiariaMes_Result1">
+          <Property Type="Decimal" Name="dia" Nullable="true" Precision="38" Scale="4" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="VentaMes_Result2">
+          <Property Type="Decimal" Name="Mes" Nullable="true" Precision="38" Scale="4" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1337,23 +1360,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="VentaDiariaMes" FunctionName="AnimaliaPetShopModel.Store.VentaDiariaMes">
+          <FunctionImportMapping FunctionImportName="GetInvoiceDetail" FunctionName="AnimaliaPetShopModel.Store.GetInvoiceDetail">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="AnimaliaPetShopModel.VentaDiariaMes_Result">
-                <ScalarProperty Name="Dia" ColumnName="Dia" />
+              <ComplexTypeMapping TypeName="AnimaliaPetShopModel.GetInvoiceDetail_Result">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="PrecioVenta" ColumnName="PrecioVenta" />
+                <ScalarProperty Name="Descripcion1" ColumnName="Descripcion1" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="VentaMes" FunctionName="AnimaliaPetShopModel.Store.VentaMes">
+          <FunctionImportMapping FunctionImportName="GetInvoice3" FunctionName="AnimaliaPetShopModel.Store.GetInvoice">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="AnimaliaPetShopModel.VentaMes_Result1">
-                <ScalarProperty Name="Mes" ColumnName="Mes" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetInvoice" FunctionName="AnimaliaPetShopModel.Store.GetInvoice">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AnimaliaPetShopModel.GetInvoice_Result">
+              <ComplexTypeMapping TypeName="AnimaliaPetShopModel.GetInvoice3_Result">
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="Cliente" ColumnName="Cliente" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
@@ -1361,6 +1381,23 @@
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="FormaDePago" ColumnName="FormaDePago" />
                 <ScalarProperty Name="TipoComprobante" ColumnName="TipoComprobante" />
+                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="VentaDiariaMes" FunctionName="AnimaliaPetShopModel.Store.VentaDiariaMes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AnimaliaPetShopModel.VentaDiariaMes_Result1">
+                <ScalarProperty Name="dia" ColumnName="dia" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="VentaMes" FunctionName="AnimaliaPetShopModel.Store.VentaMes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AnimaliaPetShopModel.VentaMes_Result2">
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -300,7 +300,13 @@
     <Compile Include="EntityFramework\FormaDePago.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\GetInvoice_Result.cs">
+    <Compile Include="EntityFramework\GetInvoice2_Result.cs">
+      <DependentUpon>Animalias.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetInvoice3_Result.cs">
+      <DependentUpon>Animalias.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GetInvoiceDetail_Result.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\IdClienteIdProducto.cs">
@@ -330,16 +336,13 @@
     <Compile Include="EntityFramework\UsuarioRoles.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\VentaDiariaMes_Result.cs">
+    <Compile Include="EntityFramework\VentaDiariaMes_Result1.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\VentaDiaria_Result.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\VentaMes_Result.cs">
-      <DependentUpon>Animalias.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\VentaMes_Result1.cs">
+    <Compile Include="EntityFramework\VentaMes_Result2.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
     <Compile Include="Enumeration.cs" />
@@ -364,6 +367,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\DetailGrid.cs" />
+    <Compile Include="Models\InvoiceDetailModel.cs" />
     <Compile Include="Models\InvoiceModel.cs" />
     <Compile Include="Models\Manager\HomeManager.cs" />
     <Compile Include="Models\Manager\InvoiceManager.cs" />
