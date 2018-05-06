@@ -112,17 +112,6 @@
                 $("#btnSearchGridProduct").on("click", SearchProduct);
 
 
-
-                function Search() {
-                    debugger;
-                    grid.reload({ searchString: $("#search").val() });
-                }
-
-                function SearchProduct() {
-                    debugger;
-                    gridProduct.reload({ searchString: $("#searchProduct").val() });
-                }
-
                 $('#search').keypress(function (event) {
                     debugger;
                     if (event.keyCode == 13) {
@@ -138,7 +127,15 @@
 
 
             });
+            function Search() {
+                debugger;
+                grid.reload({ searchString: $("#search").val() });
+            }
 
+            function SearchProduct() {
+                debugger;
+                gridProduct.reload({ searchString: $("#searchProduct").val() });
+            }
             function Edit(e) {
                
                 debugger;

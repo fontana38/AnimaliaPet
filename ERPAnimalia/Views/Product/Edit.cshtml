@@ -49,8 +49,8 @@
                     var rentPesos = (precioVenta - kgXP);
                     var rentPorc = (1 - (kgXP / precioVenta)) * 100;
 
-                    $('#RentabilidadPesos').val(rentPesos.toFixed(2).toString());
-                    $('#Rentabilidad').val(rentPorc.toFixed(2).toString());
+                    $('#RentabilidadPesos').val(rentPesos.toFixed(2).toString().replace(".", ","));
+                    $('#Rentabilidad').val(rentPorc.toFixed(2).toString().replace(".", ","));
 
                 }
                 else {
@@ -58,9 +58,10 @@
                     var rentPesos = (precioVenta - precioCosto);
                     var rentPorc = (1 - (precioCosto / precioVenta)) * 100;
 
-                    $('#RentabilidadPesos').val(rentPesos.toFixed(2).toString());
+                    $('#RentabilidadPesos').val(rentPesos.toFixed(2).toString().replace(".", ","));
 
-                    $('#Rentabilidad').val(rentPorc.toFixed(2).toString());
+                    $('#Rentabilidad').val(rentPorc.toFixed(2).toString().replace(".", ","));
+
 
                 }
                 //$('#PrecioVenta').val(precioVenta.toString().replace(".", ","));

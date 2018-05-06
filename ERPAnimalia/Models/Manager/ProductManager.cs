@@ -179,51 +179,60 @@ namespace ERPAnimalia.Models
        
         public List<ProductModels> GetProductList(int? page, int? limit, string sortBy, string direction, string searchString, string searchStringSub,out int total)
         {
-            var map = new List<ProductModels>();
-            
+            try
+            {
+                var map = new List<ProductModels>();
+
                 map = MapProduct();
 
-            if (!string.IsNullOrWhiteSpace(searchString))
-            {                
-                    map = map.Where(p => (p.CodigoBarra != null) ?(((p.CodigoBarra.ToUpper().StartsWith(searchString.ToUpper()) || p.CodigoBarra.ToUpper().EndsWith(searchString.ToUpper())) || (p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
+                if (!string.IsNullOrWhiteSpace(searchString))
+                {
+                    map = map.Where(p => (p.CodigoBarra != null) ? (((p.CodigoBarra.ToUpper().StartsWith(searchString.ToUpper()) || p.CodigoBarra.ToUpper().EndsWith(searchString.ToUpper())) || (p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
                     (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
                     (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
-                    (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))): ((p.Codigo.ToString().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
+                    (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))) : ((p.Codigo.ToString().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
                     (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
                     (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
-                    (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))).ToList();        
-            }
+                    (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))).ToList();
+                }
 
-            if (!string.IsNullOrWhiteSpace(searchStringSub))
-            {
-                map = map.Where(p => (p.Descripcion2.ToUpper().StartsWith(searchStringSub.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchStringSub.ToUpper()))).ToList();
-            }
+                if (!string.IsNullOrWhiteSpace(searchStringSub))
+                {
+                    map = map.Where(p => (p.Descripcion2.ToUpper().StartsWith(searchStringSub.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchStringSub.ToUpper()))).ToList();
+                }
 
 
                 total = map.Count();
-           
-            var productQueryable = map.AsQueryable();
+
+                var productQueryable = map.AsQueryable();
+
+
+                if (!string.IsNullOrEmpty(sortBy) && !string.IsNullOrEmpty(direction))
+                {
+
+                    if (direction.Trim().ToLower() == "asc")
+                    {
+                        productQueryable = SortHelper.OrderBy(productQueryable, sortBy);
+                    }
+                    else
+                    {
+                        productQueryable = SortHelper.OrderByDescending(productQueryable, sortBy);
+                    }
+                }
+                if (page.HasValue && limit.HasValue)
+                {
+                    int start = (page.Value - 1) * limit.Value;
+                    productQueryable = productQueryable.Skip(start).Take(limit.Value);
+                }
+
+                return productQueryable.ToList();
+            }
             
-
-            if (!string.IsNullOrEmpty(sortBy) && !string.IsNullOrEmpty(direction))
-            {
-
-                if (direction.Trim().ToLower() == "asc")
-                {
-                    productQueryable = SortHelper.OrderBy(productQueryable, sortBy);
-                }
-                else
-                {
-                    productQueryable = SortHelper.OrderByDescending(productQueryable, sortBy);
-                }
+            catch (Exception ex)
+            {            
+                throw new Exception(ex.Message);
             }
-            if (page.HasValue && limit.HasValue)
-            {
-                int start = (page.Value - 1) * limit.Value;
-                productQueryable = productQueryable.Skip(start).Take(limit.Value);
-            }
-
-            return productQueryable.ToList();
+            
         }
 
 

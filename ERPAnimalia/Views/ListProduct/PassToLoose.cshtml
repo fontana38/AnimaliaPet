@@ -7,7 +7,7 @@
 
     <script src="~/Scripts/gijgo/combined/gijgo.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
-
+    <link href="~/Content/css/PassToLosse.css" rel="stylesheet" />
     <script type="text/javascript">
 
      $(document).ready(function () {
@@ -16,6 +16,7 @@
              uiLibrary: "bootstrap",
              columns: [
              { field: "IdProducto", hidden: true },
+             { field: "CodigoBarra", title: "C. Barra", sortable: true, width: 80 },
              { field: "Codigo", title: "Código", sortable: true, width: 80 },
              { field: "Marca", title: "Marca", sortable: true, width: 80 },
              { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 100 },
@@ -58,6 +59,7 @@
                  uiLibrary: "bootstrap",
                  columns: [
                  { field: "IdProducto", hidden: true },
+                  { field: "CodigoBarra", title: "C. de Barra", sortable: true, width: 80 },
                  { field: "Codigo", title: "Código", sortable: true, width: 80 },
                  { field: "Marca", title: "Marca", sortable: true, width: 80 },
                  { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 100 },

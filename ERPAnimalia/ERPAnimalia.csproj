@@ -418,6 +418,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\css\PassToLosse.css" />
     <Content Include="Content\css\product.css" />
     <Content Include="Content\css\Voucher.css" />
     <Content Include="Content\gijgo\combined\gijgo.css" />
