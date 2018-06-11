@@ -31,8 +31,8 @@
                 source: function (request, response) {
                     $.ajax({
                         url: "/Voucher/GetProduct",
-                        autoFocus: true,
-                        selectFirst: true,
+                        //autoFocus: true,
+                        //selectFirst: true,
                         type: "POST", dataType: "json",
                         data: { term: request.term },
                         success: function (data) {

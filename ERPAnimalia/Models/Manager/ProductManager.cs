@@ -203,7 +203,8 @@ namespace ERPAnimalia.Models
 
 
                 total = map.Count();
-
+                
+                
                 var productQueryable = map.AsQueryable();
 
 
@@ -240,13 +241,27 @@ namespace ERPAnimalia.Models
         public List<ProductModels> GetProductList(int? page, int? limit, string sortBy, string direction, string searchString, out int total)
         {
             var map = new List<ProductModels>();
-
+            double codigo=0;
             map = MapProduct();
-
-
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
+                try
+                {
+                    codigo = double.Parse(searchString);
+                }
+                catch (FormatException e)
+                {
+                    codigo = 0;
+                }
+
+                if(codigo!=0)
+                {
+                    map = map.Where(p => (p.Codigo == codigo)).ToList();
+                }
+
+                else { 
+
                 map = map.Where(p => (p.CodigoBarra != null) ? (((p.CodigoBarra.ToUpper().StartsWith(searchString.ToUpper()) || p.CodigoBarra.ToUpper().EndsWith(searchString.ToUpper())) || (p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
                 (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
                 (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
@@ -254,9 +269,9 @@ namespace ERPAnimalia.Models
                 (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
                 (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
                 (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))).ToList();
+              }
+
             }
-
-
             total = map.Count();
 
             var productQueryable = map.AsQueryable();

@@ -88,7 +88,7 @@ namespace ERPAnimalia.Controllers
             var listProduct = VoucherDetailManager.GetProduct(term);
                  
              var Descripcion1 = (from N in listProduct
-                              select new { N.Descripcion1,N.Marca, N.kg, N.SubCategoryName,N.IdProducto }).ToList();
+                              select new { N.Codigo,N.Descripcion1,N.Marca, N.kg, N.SubCategoryName,N.IdProducto }).ToList();
   
             return Json(Descripcion1, JsonRequestBehavior.AllowGet);
 

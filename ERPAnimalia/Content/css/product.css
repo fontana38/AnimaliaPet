@@ -16,12 +16,14 @@ tbody{
  .colVenta
  {
     background-color: MediumSeaGreen;
+    font-weight:bold;
     
 }
 
  .colCosto
  {
     background-color: #ff6347;
+    font-weight:bold;
 }
 
  
