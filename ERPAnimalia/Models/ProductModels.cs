@@ -65,9 +65,9 @@ namespace ERPAnimalia.Models
 
         [Required(ErrorMessage = "Por favor Ingrese la Categoria")]
 
-        public int? IdCategory { get; set; }
+        public int IdCategory { get; set; }
        
-        public int? IdSubCategory { get; set; }
+        public int IdSubCategory { get; set; }
 
        
 

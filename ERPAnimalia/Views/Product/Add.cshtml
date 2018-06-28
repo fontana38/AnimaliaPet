@@ -154,7 +154,8 @@
 {
 
             <div class="form-group">
-                @Html.ValidationSummary(true);
+               
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             </div>
 
             <div class="col-md-6">

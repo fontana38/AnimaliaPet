@@ -63,6 +63,10 @@ namespace ERPAnimalia.Controllers
         {
             ModelState.Remove("RentabilidadPesos");
             ModelState.Remove("IdSubCategory");
+            if(product.IdCategory==0 || product.IdSubCategory==0)
+            {
+                ModelState.AddModelError(string.Empty, "La categoria y la subcategoria deben ser seleccionadas");
+            }
             if (ModelState.IsValid)
             {               
                     ProductManagers.SaveProduct(product);
@@ -112,6 +116,11 @@ namespace ERPAnimalia.Controllers
             {
                 ModelState.Remove("IdCategory");
                 ModelState.Remove("Rentabilidad");
+                if (product.IdCategory == 0 || product.IdSubCategory == 0)
+                {
+                    ModelState.AddModelError(string.Empty, "La categoria y la subcategoria deben ser seleccionadas");
+                }
+
                 if (ModelState.IsValid)
                 {
                     ProductManagers.EditProduct(product);
