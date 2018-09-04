@@ -36,6 +36,7 @@
                         type: "POST", dataType: "json",
                         data: { term: request.term },
                         success: function (data) {
+                            debugger;
                             response($.map(data, function (item) {                             
                                 var res = item.Descripcion1.concat(", ").concat(item.Marca).concat(", ").concat(item.SubCategoryName).concat(", ").concat( item.kg);
                              
@@ -49,12 +50,14 @@
                     });
                 },
                 select: function (event, ui) {
+                    debugger;
                     $("#Descripcion1").val(ui.item.label); // display the selected text
                     $("#IdProducto").val(ui.item.value);
                     AddGrid();
                     return false; 
                 },
                 focus: function (event, ui) {
+                    debugger;
                     $("#Descripcion1").val(ui.item.label);
                     $("#IdProducto").val(ui.item.value);
                     return false;
@@ -106,6 +109,7 @@
 
             function AddGrid()
             {
+                debugger;
                 if ($("#Descripcion1").val() != "") {
                     gridDetail.reload({ IdProducto: $("#IdProducto").val(), term: $("#Descripcion1").val(), cantidad: $("#Cantidad").val(), descuento: $("#Descuento").val() });
                     SaveEnabled();

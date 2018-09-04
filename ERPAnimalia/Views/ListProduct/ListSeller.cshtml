@@ -1,4 +1,4 @@
-﻿
+﻿@using ERPAnimalia.Models;
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +9,7 @@
     <script src="~/Scripts/jquery-ui.js"></script>
 
     <link href="~/Content/css/product.css" rel="stylesheet" />
+    @model ProductModels
 </head>
 <body>
     <script type="text/javascript">
@@ -84,6 +85,12 @@
                             <button type="button" id="btnSearch" class="btn btn-default">Go!</button>
                         </span>
                     </div>
+                    <div>
+                    <label class="col-md-4" for="desc">Subcategoria:</label>
+                        @Html.DropDownListFor(model => model.IdSubCategory,
+                        new SelectList(Model.SubCategory, "IdSubCategory", "Name"), new { @class = "form-control", type = "text", placeholder = "Seleccione Categoria", @onchange = "CalculateRentabilidadDropDown()" })
+                    </div>
+
                 </div>
                
             </div>

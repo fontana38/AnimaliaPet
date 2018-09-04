@@ -3,6 +3,16 @@ tbody{
    height:500px !important
 }
 
+.topnav a {
+  
+    color: #f1eae9;
+   
+    padding: 14px 16px;
+   
+    font-size: 17px;
+}
+
+
  #product
 {
     width:900px !important;

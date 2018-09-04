@@ -69,7 +69,7 @@ namespace ERPAnimalia.Controllers
             }
             if (ModelState.IsValid)
             {               
-                    ProductManagers.SaveProduct(product);
+                ProductManagers.SaveProduct(product);
                 product.Category = ProductManagers.GetCategory();
                 product.SubCategory = ProductManagers.GetSubCategory();
                 return RedirectToAction("Index", "ListProduct");

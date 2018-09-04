@@ -19,7 +19,9 @@ namespace ERPAnimalia.Controllers
 
         public List<ProductModels> records { get; set; }
 
-     
+        
+
+
 
         public ListProductController()
         {
@@ -29,16 +31,20 @@ namespace ERPAnimalia.Controllers
 
         // GET: ListProduct
         [Route("Index")]
-        public ActionResult Index()
+        public ActionResult Index(ProductModels product)
         {
-            return View();
+            product.SubCategory = ProductManagers.GetSubCategory();
+            product.Category = ProductManagers.GetCategory();
+            return View(product);
         }
 
         // GET: ListProduct
         [Route("ListaPrecio")]
-        public ActionResult ListSeller()
+        public ActionResult ListSeller(ProductModels product)
         {
-            return View();
+            product.SubCategory = ProductManagers.GetSubCategory();
+            return View(product);
+           
         }
 
         // GET: ListProduct
@@ -49,12 +55,12 @@ namespace ERPAnimalia.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetProduct(int? page, int? limit, string sortBy, string direction, string searchString = null, string searchStringSub = null)
+        public JsonResult GetProduct(int? page, int? limit, string sortBy, string direction, string searchString = null, string searchStringSub = null,string idCategory=null,string idSubCategory=null)
         {
             int total;
             sortBy =(sortBy==null) ? "Codigo" : sortBy;
             direction = (direction == null) ? "asc" : direction;
-            var records = ProductManagers.GetProductList(page, limit, sortBy, direction, searchString, searchStringSub, out total);
+            var records = ProductManagers.GetProductList(page, limit, sortBy, direction, searchString, searchStringSub,idCategory,idSubCategory, out total);
             foreach (var item in records)
             {
                 item.PrecioCosto = Math.Round(item.PrecioCosto, 2);
