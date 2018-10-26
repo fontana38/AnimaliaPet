@@ -11,13 +11,14 @@ namespace ERPAnimalia.Models.Manager
     public class InvoiceManager
     {
         public static AnimaliaPetShopEntities db { get; set; }
+      
 
         public InvoiceManager()
         {
             db = Factory.Factory.CreateContextDataBase();
         }
 
-        public  List<InvoiceModel> GetInvoice(DateTime? dateFrom,DateTime? dateTo, string idClient)
+        public  List<InvoiceModel> GetInvoice(DateTime? dateFrom,DateTime? dateTo, string idClient, string idTypeVoucher)
         {
 
             if (dateFrom == null && dateTo == null && idClient == null)
@@ -25,11 +26,12 @@ namespace ERPAnimalia.Models.Manager
                 dateFrom = DateTime.Now.AddDays(-7);
                 dateTo = DateTime.Now.Date;
             }
+
+            var typeVocher = Convert.ToInt16(idTypeVoucher);
                
-            var invoice = db.GetInvoice3(dateFrom, dateTo, idClient).ToList();
+            var invoice = db.GetInvoice(dateFrom, dateTo,  typeVocher).ToList();
             var listInvoice = MapperObject.CreateListInvoiceModel(invoice);
-
-
+ 
               return  listInvoice;
         }
 
@@ -43,7 +45,17 @@ namespace ERPAnimalia.Models.Manager
 
             return listInvoice;
         }
-        
+
+
+        public List<TipoComprobantesModel> GetTypeInvoice()
+        {
+
+            var tipoComprobante = db.TipoComprobante.ToList();
+            var listInvoice = MapperObject.tipoComprobante(tipoComprobante);
+
+            return listInvoice;
+        }
+
 
     }
 }

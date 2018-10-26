@@ -26,7 +26,7 @@
                 { field: "CodigoBarra", title: "Código de Barra", sortable: true, width: 90 },
                 { field: "Codigo", title: "Código", sortable: true, width: 60 },
                 { field: "Marca", title: "Marca", sortable: true, width: 80 },
-                { field: "Descripcion1", title: "Descripcion", sortable: true, width: 120 }, 
+                { field: "Descripcion1", title: "Descripcion", sortable: true, width: 120 },
                 { field: "kg", title: "Kg", sortable: true, width: 30 },
                 { field: "Cantidad", title: "Cant.", sortable: true, width: 40 },
                  { field: "PrecioVenta", title: "Precio Venta", tmpl: '$ {PrecioVenta}', cssClass: 'colVenta', sortable: true, width: 50 },
@@ -50,6 +50,8 @@
                     }
                 }
                 ],
+                 selectionMethod: 'checkbox',
+                 selectionType: 'multiple',
                 pager: { limit: 40, sizes: [2, 5, 10, 20] }
             });
 
@@ -67,6 +69,30 @@
             debugger;
             gridProduct.reload({ searchString: $("#search").val(), searchStringSub: $("#searchDescription2").val(), idCategory: $("#IdCategory").val(), idSubCategory: $("#IdSubCategory").val() });
         }
+
+
+        function ItemFacturar()
+        {
+            debugger;
+            var idProducto = new Array();
+            var selections = gridProduct.getSelections();
+            var ids;
+            if (selections.length != 0) {
+
+                $(selections).each(function (index, element) {
+                    debugger;
+                    var row = gridProduct.get(element);
+                    idProducto[index] = row.IdProducto;
+                });
+                location.href = '@Url.Action("CrearFactura", "Factura")?ids=' + idProducto;
+            }
+        }
+
+
+
+
+
+
     </script>
 
     
@@ -75,7 +101,7 @@
         <div class="panel-heading">
             <div class="topnav" id="barraTop">
                 <a href='@Url.Action("Create", "Product")' class="active">Crear Nuevo Producto  </a>
-                <a href="#">Facturar Item</a>              
+                <a href="javascript:ItemFacturar()">Facturar Item</a>              
             </div>
         </div>
         <div class="panel-body">

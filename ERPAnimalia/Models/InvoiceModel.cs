@@ -15,5 +15,7 @@ namespace ERPAnimalia.Models
         public string FormaDePago { get; set; }
         public decimal Total { get; set; }
         public string Comentario { get; set; }
+        public List<TipoComprobantesModel> listTypeInvoice { get; set; }
+
     }
 }

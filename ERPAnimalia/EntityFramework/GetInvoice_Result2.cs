@@ -13,18 +13,25 @@ namespace ERPAnimalia.EntityFramework
 {
 
 using System;
-    using System.Collections.Generic;
     
-public partial class C__MigrationHistory
+public partial class GetInvoice_Result2
 {
 
-    public string MigrationId { get; set; }
+    public Nullable<System.Guid> IdCliente { get; set; }
 
-    public string ContextKey { get; set; }
+    public string Cliente { get; set; }
 
-    public byte[] Model { get; set; }
+    public Nullable<System.DateTime> Fecha { get; set; }
 
-    public string ProductVersion { get; set; }
+    public string Comentario { get; set; }
+
+    public Nullable<decimal> Total { get; set; }
+
+    public string FormaDePago { get; set; }
+
+    public string TipoComprobante { get; set; }
+
+    public System.Guid IdComprobante { get; set; }
 
 }
 

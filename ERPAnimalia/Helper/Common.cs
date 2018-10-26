@@ -13,7 +13,7 @@ namespace ERPAnimalia.Helper
         public static List<FormaDePago> GetFormaPagoLoadOrder()
         {
             db = Factory.Factory.CreateContextDataBase();
-            var formaDePago = db.FormaDePago.Where(x => x.IdFormaDePago > 2).ToList();
+            var formaDePago = db.FormaDePago.ToList();
             return formaDePago;
         }
     }

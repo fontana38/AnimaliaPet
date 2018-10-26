@@ -47,8 +47,6 @@ public partial class AnimaliaPetShopEntities : DbContext
 
     public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
 
-    public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-
     public virtual DbSet<IdClienteIdProducto> IdClienteIdProducto { get; set; }
 
     public virtual DbSet<SubCategory> SubCategory { get; set; }
@@ -86,7 +84,21 @@ public partial class AnimaliaPetShopEntities : DbContext
     }
 
 
-    public virtual ObjectResult<GetInvoice3_Result> GetInvoice3(Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo, string idCliente)
+    public virtual ObjectResult<VentaDiariaMes_Result1> VentaDiariaMes()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaDiariaMes_Result1>("VentaDiariaMes");
+    }
+
+
+    public virtual ObjectResult<VentaMes_Result2> VentaMes()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaMes_Result2>("VentaMes");
+    }
+
+
+    public virtual ObjectResult<GetInvoice_Result2> GetInvoice(Nullable<System.DateTime> dateFrom, Nullable<System.DateTime> dateTo, Nullable<int> idTypeVoucher)
     {
 
         var dateFromParameter = dateFrom.HasValue ?
@@ -99,26 +111,12 @@ public partial class AnimaliaPetShopEntities : DbContext
             new ObjectParameter("DateTo", typeof(System.DateTime));
 
 
-        var idClienteParameter = idCliente != null ?
-            new ObjectParameter("IdCliente", idCliente) :
-            new ObjectParameter("IdCliente", typeof(string));
+        var idTypeVoucherParameter = idTypeVoucher.HasValue ?
+            new ObjectParameter("IdTypeVoucher", idTypeVoucher) :
+            new ObjectParameter("IdTypeVoucher", typeof(int));
 
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoice3_Result>("GetInvoice3", dateFromParameter, dateToParameter, idClienteParameter);
-    }
-
-
-    public virtual ObjectResult<VentaDiariaMes_Result1> VentaDiariaMes()
-    {
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaDiariaMes_Result1>("VentaDiariaMes");
-    }
-
-
-    public virtual ObjectResult<VentaMes_Result2> VentaMes()
-    {
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaMes_Result2>("VentaMes");
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoice_Result2>("GetInvoice", dateFromParameter, dateToParameter, idTypeVoucherParameter);
     }
 
 }

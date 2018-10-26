@@ -412,7 +412,7 @@ namespace ERPAnimalia
             }
         }
 
-        public static List<InvoiceModel> CreateListInvoiceModel(List<GetInvoice3_Result> listInvoice)
+        public static List<InvoiceModel> CreateListInvoiceModel(List<GetInvoice_Result2> listInvoice)
         {
             try
             {
@@ -434,6 +434,21 @@ namespace ERPAnimalia
                 var invoiceDetail = mapper.Map<List<InvoiceDetailModel>>(listDetailInvoice);
 
                 return invoiceDetail;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message.ToString());
+            }
+        }
+
+        public static List<TipoComprobantesModel> tipoComprobante(List<TipoComprobante> tipoComprobante)
+        {
+            try
+            {
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                var tipoComprobanteList = mapper.Map<List<TipoComprobantesModel>>(tipoComprobante);
+
+                return tipoComprobanteList;
             }
             catch (Exception e)
             {

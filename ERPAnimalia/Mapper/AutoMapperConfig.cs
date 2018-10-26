@@ -41,8 +41,9 @@ namespace ERPAnimalia.Mapper
                 cfg.CreateMap<VoucherDetailModel, DetalleComprobante>();
                 cfg.CreateMap<Proveedor, ProviderModel>();
                 cfg.CreateMap<ProviderModel, Proveedor>();
-                cfg.CreateMap<GetInvoice3_Result, InvoiceModel>();
+                cfg.CreateMap<GetInvoice_Result2, InvoiceModel>();
                 cfg.CreateMap<GetInvoiceDetail_Result, InvoiceDetailModel>();
+                cfg.CreateMap<TipoComprobante, TipoComprobantesModel>();
             });
 
            
