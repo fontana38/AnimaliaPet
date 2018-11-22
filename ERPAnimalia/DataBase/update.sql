@@ -2,13 +2,13 @@ USE AnimaliaPetShop
 --//Update productos , la cantidad y el precio
 update Product
 set Product.Cantidad = ac.F11,Product.PrecioCosto=ac.f8,Product.PrecioVenta=ac.f7,Product.RentabilidadPesos=ac.f9,Product.Rentabilidad=ac.f10
-FROM [dbo].['VTA#DIARIA 6$'] as ac
-where Product.Codigo=f2
+FROM [dbo].['VTA#DIARIA 10$'] as ac
 
 
-select * from Product
-Product.Cantidad = ac.F11,Product.PrecioCosto=ac.f8,Product.PrecioVenta=ac.f7,Product.RentabilidadPesos=ac.f9,Product.Rentabilidad=ac.f10
-FROM [dbo].['VTA#DIARIA 6$'] as ac
+
+update Product
+set Product.Cantidad = ac.F11,Product.PrecioCosto=ac.f8,Product.PrecioVenta=ac.f7,Product.RentabilidadPesos=ac.f9,Product.Rentabilidad=ac.f10
+FROM [dbo].['VTA#DIARIA 10$'] as ac
 where Product.Marca = ac.f4 and Product.Descripcion1=ac.f5 and Product.Kg=ac.F6
 
 --//Update Code product table

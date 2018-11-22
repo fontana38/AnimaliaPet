@@ -36,6 +36,7 @@ namespace ERPAnimalia.Controllers
             {
                 product.Category = ProductManagers.GetCategory();
                 product.SubCategory = ProductManagers.GetSubCategory();
+                product.TamanoMascotaList = ProductManagers.GetTamañoMascota();
 
                 ModelState.Remove("RentabilidadPesos");
                 ModelState.Remove("Rentabilidad");
@@ -43,7 +44,7 @@ namespace ERPAnimalia.Controllers
                 ModelState.Remove("Descripcion1");
                 ModelState.Remove("Cantidad");
                 ModelState.Remove("IdCategory");
-                ModelState.Remove("Descripcion2");
+                ModelState.Remove("IdTamanoMascota");
                 ModelState.Remove("marca");
                 ModelState.Remove("precioCosto");
                 ModelState.Remove("precioVenta");
@@ -58,14 +59,14 @@ namespace ERPAnimalia.Controllers
             
         }
 
-        
+
         public ActionResult SaveProduct(ProductModels product)
         {
             ModelState.Remove("RentabilidadPesos");
             ModelState.Remove("IdSubCategory");
-            if(product.IdCategory==0 || product.IdSubCategory==0)
+            if (product.IdCategory == 0 || product.IdSubCategory == 0 || product.IdTamanoMascota ==0)
             {
-                ModelState.AddModelError(string.Empty, "La categoria y la subcategoria deben ser seleccionadas");
+                ModelState.AddModelError(string.Empty, "La categoria ,subcategoria  y tamaño deben ser seleccionadas");
             }
             if (ModelState.IsValid)
             {               

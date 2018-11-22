@@ -21,8 +21,6 @@
 <body>
     
     <script type="text/javascript">
-        var idProducto= new Array;
-        var isLoad;
         var gridDetail;
         $(document).ready(function () {
             SaveEnabled();
@@ -36,7 +34,6 @@
                         type: "POST", dataType: "json",
                         data: { term: request.term },
                         success: function (data) {
-                            debugger;
                             response($.map(data, function (item) {                             
                                 var res = item.Descripcion1.concat(", ").concat(item.Marca).concat(", ").concat(item.SubCategoryName).concat(", ").concat( item.kg);
                              
@@ -50,14 +47,12 @@
                     });
                 },
                 select: function (event, ui) {
-                    debugger;
                     $("#Descripcion1").val(ui.item.label); // display the selected text
                     $("#IdProducto").val(ui.item.value);
                     AddGrid();
                     return false; 
                 },
                 focus: function (event, ui) {
-                    debugger;
                     $("#Descripcion1").val(ui.item.label);
                     $("#IdProducto").val(ui.item.value);
                     return false;
@@ -76,7 +71,7 @@
                     { field: "Descripcion1", title: "Descripcion1", sortable: true, width: 50 },
                     { field: "Marca", title: "Marca", sortable: true,align: 'center', width: 50 },
                     { field: "Category", title: "Categoria", sortable: true,align: 'center', width: 50 },
-                     { field:"SubCategory", title: "SubCategoría", sortable: true,align: 'center', width: 50 },
+                    { field:"SubCategory", title: "SubCategoría", sortable: true,align: 'center', width: 50 },
                     { field: "kg", title: "Kg", sortable: true,align: 'center', width: 20 },
                     { field: "PrecioVenta", title: "Precio Venta", sortable: true,align: 'center', width: 50 },
                     { field: "Cantidad", title: "Cantidad", editor: true, align: 'center',width: 50 },
@@ -96,7 +91,6 @@
 
 
             $('#Descripcion1').keypress(function (event) {
-                debugger;
                 if (event.keyCode == 13) {
                     if ($("#Descripcion1").val() != "") {
                       
@@ -109,7 +103,6 @@
 
             function AddGrid()
             {
-                debugger;
                 if ($("#Descripcion1").val() != "") {
                     gridDetail.reload({ IdProducto: $("#IdProducto").val(), term: $("#Descripcion1").val(), cantidad: $("#Cantidad").val(), descuento: $("#Descuento").val() });
                     SaveEnabled();
@@ -118,6 +111,7 @@
             }
            
             gridDetail.on('dataBound', function (e, records, totalRecords) {
+                debugger;
                 GetTotal();
                 SaveEnabled();
             });
@@ -147,6 +141,7 @@
             {
                 
                 if (gridDetail.count() != 0) {
+                    debugger;
                         var totalRows = gridDetail.count();
                         var row = gridDetail.get(totalRows);
                         $("#totalVoucher").val(row.Total);
@@ -207,7 +202,7 @@
                 debugger;
                 if (confirm('Esta Seguro que va a eliminar?')) {
                     e.stopImmediatePropagation();
-                    e.preventDefault();
+                    e.preventDefault(); 
                     $.ajax({ url: '/Voucher/Delete', data: { idProduct: e.data.record.IdProduct }, method: 'POST' })
                         .done(function (data) {
                             debugger;
@@ -227,28 +222,7 @@
                     GetTotal();
                 }
             }
-            //    if (confirm('Esta seguro que quiere eliminar?')) {
-            //        debugger;
-            //    $.ajax({
-            //        url: "/Voucher/Delete",
-            //        type: "post", dataType: "json",
-            //        data: { idProduct: e.data.record.IdProduct },
-            //        .done: function (data) {
-            //            debugger;
-            //            gridDetail.reload();
-            //            if (data == '0') {
-            //                $("#totalVoucher").val(0);
-            //            }
-            //            else {
-                            
-            //                //GetTotal(data);
-            //            }
-                        
-            //        }                   
-            //    });
-            //    //GetTotal();
-            //   }
-            //}
+            
     </script>
     <div class="container-fluid">
         @{

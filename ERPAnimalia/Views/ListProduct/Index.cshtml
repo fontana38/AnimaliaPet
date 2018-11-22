@@ -56,21 +56,25 @@
             });
 
             $("#btnSearch").on("click", Search);
-            $("#btnSearchDescription2").on("click", SearchDescription2);
-
+           
+          
+           
             $('#search').keypress(function (event) {
                 if (event.keyCode == 13) {
-                    $("#btnSearch").click();
+                
+                    Search();
                 }
             });
+
+            
+        
         });
 
+       
         function Search() {
             debugger;
-            gridProduct.reload({ searchString: $("#search").val(), searchStringSub: $("#searchDescription2").val(), idCategory: $("#IdCategory").val(), idSubCategory: $("#IdSubCategory").val() });
+            gridProduct.reload({ searchString: $("#search").val(), idCategory: $("#IdCategory").val(), idSubCategory: $("#IdSubCategory").val(), idTamanoMascota: $("#IdTamanoMascota").val() });
         }
-
-
         function ItemFacturar()
         {
             debugger;
@@ -110,14 +114,22 @@
                 <div class="form-group ">
                     <label for="desc">Categoria:</label>
                     @Html.DropDownListFor(model => model.IdCategory,
-             new SelectList(Model.Category, "IdCategory", "Name"), new { @class = "form-control", type = "text", placeholder = "Seleccione Bola,Suelto,Accesorios", @onchange = "CalculateRentabilidadDropDown()" })
+             new SelectList(Model.Category, "IdCategory", "Name"), new { @class = "form-control", type = "text", placeholder = "Seleccione Bola,Suelto,Accesorios", @onchange = "Search()" })
                 </div>
                 <div class="form-group">
                     <label for="desc">Subcategoria:</label>
                     @Html.DropDownListFor(model => model.IdSubCategory,
-             new SelectList(Model.SubCategory, "IdSubCategory", "Name"), new { @class = "form-control", type = "text", placeholder = "Seleccione Categoria", @onchange = "CalculateRentabilidadDropDown()" })
+             new SelectList(Model.SubCategory, "IdSubCategory", "Name"), new { @class = "form-control", type = "text", placeholder = "Seleccione Categoria", @onchange = "Search()" })
 
                 </div>
+                
+                <div class="form-group">
+                    <label for="desc">Tamaño:</label>
+                    @Html.DropDownListFor(model => model.IdTamanoMascota,
+             new SelectList(Model.TamanoMascotaList, "IdTamanoMascota", "Nombre"), new { @class = "form-control", type = "text", placeholder = "Seleccione Tamaño", @onchange = "Search()" })
+
+                </div>
+
                 <div class="input-group">
                     <input type="text" id="search" class="form-control" placeholder="Buscar por Marca">
                     <span class="input-group-btn">

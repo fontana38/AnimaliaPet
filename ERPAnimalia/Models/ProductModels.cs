@@ -30,11 +30,6 @@ namespace ERPAnimalia.Models
         [Display(Name = "Descripción1")]
         public string Descripcion1 { get; set; }
 
-        [Required(ErrorMessage = "Por favor Ingrese la Descripción2")]
-        [MaxLength(50)]
-        [Display(Name = "Descripción2")]
-        public string Descripcion2 { get; set; }
-
         [MaxLength(50)]
         [Display(Name = "Código de Barra")]
         public string CodigoBarra { get; set; }
@@ -69,10 +64,13 @@ namespace ERPAnimalia.Models
        
         public int IdSubCategory { get; set; }
 
-       
+        public int IdTamanoMascota { get; set; }
 
-        
         public List<CategoryModel> Category { get; set; }
+
+        public List<TamanoMascotaModel> TamanoMascotaList { get; set; }
+
+        public List<TipoAnimalModel> TipoAnimalList { get; set; }
 
         public SelectList CategorySelect { get; set; }
 
@@ -85,10 +83,13 @@ namespace ERPAnimalia.Models
         [Display(Name = "Sub Categoria")]
         public SubCategoryModel SubCategoryItem { get; set; }
 
-       
+        [Display(Name = "Tamaño")]
+        public TamanoMascotaModel tamanoItem { get; set; }
+
+
         public string SubCategoryName { get; set; }
 
-
+        public string tamanoName { get; set; }
         public string CategoryName { get; set; }
 
         public bool IsSelect { get; set; }

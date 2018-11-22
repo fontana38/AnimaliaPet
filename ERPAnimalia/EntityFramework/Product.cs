@@ -61,6 +61,10 @@ public partial class Product
 
     public Nullable<decimal> TotalKg { get; set; }
 
+    public Nullable<int> IdTamanoMascota { get; set; }
+
+    public Nullable<int> idTipoAnimal { get; set; }
+
 
 
     public virtual Category Category { get; set; }

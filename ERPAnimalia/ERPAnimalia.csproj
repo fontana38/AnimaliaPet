@@ -333,6 +333,12 @@
     <Compile Include="EntityFramework\SubCategory.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\TamanoMascota.cs">
+      <DependentUpon>Animalias.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\TipoAnimal.cs">
+      <DependentUpon>Animalias.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\TipoComprobante.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
@@ -383,6 +389,8 @@
     <Compile Include="Models\Manager\VoucherDetailManager.cs" />
     <Compile Include="Models\NotaPedidoModel.cs" />
     <Compile Include="Models\ProviderModel.cs" />
+    <Compile Include="Models\TamanoMascotaModel.cs" />
+    <Compile Include="Models\TipoAnimalModel.cs" />
     <Compile Include="Models\VentaDiariaMesModel.cs" />
     <Compile Include="Models\VoucherHeadGeneral.cs" />
     <Compile Include="Models\VoucherHeadLoadOrder.cs" />

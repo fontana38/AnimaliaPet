@@ -125,7 +125,16 @@ namespace ERPAnimalia.Factory
             return new SubCategoryModel();
 
         }
+        public static List<TipoAnimalModel> CreateListTipoAnimmalModel()
+        {
+            return new List<TipoAnimalModel>();
 
+        }
+        public static List<TamanoMascotaModel> CreateListTamañoMascotaModel()
+        {
+            return new List<TamanoMascotaModel>();
+
+        }
         public static List<ClienteModel> Cliente()
         {
             return new List<ClienteModel>();

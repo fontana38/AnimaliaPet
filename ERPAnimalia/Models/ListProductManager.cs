@@ -22,12 +22,13 @@ namespace ERPAnimalia.Models
             var productList = db.Product.ToList();
             var categoriaList = db.Category.ToList();
             var subCategoriaList = db.SubCategory.ToList();
+            var tamanoList = db.TamanoMascota.ToList();
 
-            var product = MapperObject.CreateProductList(productList, categoriaList,subCategoriaList);
+            var product = MapperObject.CreateProductList(productList, categoriaList,subCategoriaList,tamanoList);
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                product = product.Where(p => p.Descripcion1.Contains(searchString) || p.Codigo.ToString().Contains(searchString)|| p.Descripcion2.Contains(searchString)).ToList();
+                product = product.Where(p => p.Descripcion1.Contains(searchString) || p.Codigo.ToString().Contains(searchString)).ToList();
             }
 
             total = product.Count();

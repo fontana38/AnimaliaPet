@@ -157,6 +157,22 @@ namespace ERPAnimalia.Models
             return MapperObject.CreateSubCategoryList(subCategory);
         }
 
+        public List<TipoAnimalModel> GetTipoAnimal()
+        {
+
+            var tipoAnimal = db.TipoAnimal.ToList();
+
+            return MapperObject.CreateTipoAnimalList(tipoAnimal);
+        }
+
+        public List<TamanoMascotaModel> GetTamañoMascota()
+        {
+
+            var tamañoMascota = db.TamanoMascota.ToList();
+
+            return MapperObject.CreateTamañoMascotaList(tamañoMascota);
+        }
+
         public void Delete(Guid id)
         {
             
@@ -177,37 +193,39 @@ namespace ERPAnimalia.Models
         }
 
        
-        public List<ProductModels> GetProductList(int? page, int? limit, string sortBy, string direction, string searchString, string searchStringSub, string idCategory, string idSubCategory, out int total)
+        public List<ProductModels> GetProductList(int? page, int? limit, string sortBy, string direction, string searchString, string idCategory, string idSubCategory, string idTamañoMascota, out int total)
         {
             try
             {
                 int category = 0;
                 int subCategory = 0;
+                int tamañoMascota = 0;
 
                 var map = new List<ProductModels>();
 
                 map = MapProduct();
 
-                if(!String.IsNullOrEmpty(idCategory))
+                if(!String.IsNullOrEmpty(idCategory) && idCategory != "0")
                 {
                     category = Convert.ToInt16(idCategory);
                     map = map.Where(x => x.IdCategory== category).ToList();
                 }
 
-                if (!String.IsNullOrEmpty(idSubCategory))
+                if (!String.IsNullOrEmpty(idSubCategory) && idSubCategory != "0")
                 {
                     subCategory = Convert.ToInt16(idSubCategory);
                     map = map.Where(x => x.IdSubCategory == subCategory).ToList();
                 }
 
+                if (!String.IsNullOrEmpty(idTamañoMascota) && idTamañoMascota != "0")
+                {
+                    tamañoMascota = Convert.ToInt16(idTamañoMascota);
+                    map = map.Where(x => x.IdTamanoMascota == tamañoMascota).ToList();
+                }
+
                 if (!string.IsNullOrWhiteSpace(searchString))
                 {
-                    map = map.Where(p => (p.CodigoBarra != null) ? (((p.CodigoBarra.ToUpper().StartsWith(searchString.ToUpper()) || p.CodigoBarra.ToUpper().EndsWith(searchString.ToUpper())) || (p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
-                    (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
-                    (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())))) 
-                      : ((p.Codigo.ToString().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
-                    (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
-                    (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())))).ToList();
+                    map = GetProductListQuery(map, searchString);
                 }
 
                 total = map.Count();
@@ -274,16 +292,10 @@ namespace ERPAnimalia.Models
                     listCodeBarra = map.Where(p => (p.CodigoBarra == searchString)).ToList();
                 }
 
-                else { 
+                else {
 
-                map = map.Where(p => (p.CodigoBarra != null) ? (((p.CodigoBarra.ToUpper().StartsWith(searchString.ToUpper()) || p.CodigoBarra.ToUpper().EndsWith(searchString.ToUpper())) || (p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))) : ((p.Codigo.ToString().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))).ToList();
-              }
+                    map = GetProductListQuery(map, searchString);
+                }
 
             }
 
@@ -348,18 +360,9 @@ namespace ERPAnimalia.Models
             }
 
 
-                if (!string.IsNullOrWhiteSpace(searchString))
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
-
-                map = map.Where(p => (p.CodigoBarra != null) ? (((p.CodigoBarra.ToUpper().StartsWith(searchString.ToUpper()) || p.CodigoBarra.ToUpper().EndsWith(searchString.ToUpper())) || (p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))) : ((p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))).ToList();
-
-
+                map = GetProductListQuery(map, searchString);
             }
 
             total = map.Count();
@@ -512,14 +515,7 @@ namespace ERPAnimalia.Models
             if (!string.IsNullOrWhiteSpace(searchString))
             {
 
-                map = map.Where(p => (p.CodigoBarra != null) ? (((p.CodigoBarra.ToUpper().StartsWith(searchString.ToUpper()) || p.CodigoBarra.ToUpper().EndsWith(searchString.ToUpper())) || (p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))) : ((p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())) ||
-                (p.Descripcion2.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion2.ToUpper().EndsWith(searchString.ToUpper())))).ToList();
-
+                map = GetProductListQuery(map, searchString);
 
             }
 
@@ -574,8 +570,9 @@ namespace ERPAnimalia.Models
                 var productList = db.Product.ToList();
                 var category = db.Category.ToList();
                 var subcategoria = db.SubCategory.ToList();
+                var tamanoList = db.TamanoMascota.ToList();
 
-                return MapperObject.CreateProductList(productList, category, subcategoria);
+                return MapperObject.CreateProductList(productList, category, subcategoria,tamanoList);
             }
         }
 
@@ -586,6 +583,7 @@ namespace ERPAnimalia.Models
             modelState.Remove("quantity");
             modelState.Remove("IdCategory");
             modelState.Remove("IdSubCategory");
+            modelState.Remove("IdTamanoMascota");
         }
 
 
@@ -658,6 +656,20 @@ namespace ERPAnimalia.Models
 
             }
             return product;
+        }
+
+
+
+        private List<ProductModels> GetProductListQuery(List<ProductModels> list,string searchString)
+        {
+            list = list.Where(p => (p.CodigoBarra != null) ? (((p.CodigoBarra.ToUpper().StartsWith(searchString.ToUpper()) || p.CodigoBarra.ToUpper().EndsWith(searchString.ToUpper())) || (p.Codigo.ToString().ToUpper().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
+               (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
+               (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper()))
+               )) : ((p.Codigo.ToString().StartsWith(searchString.ToUpper()) || p.Codigo.ToString().ToUpper().EndsWith(searchString.ToUpper())) ||
+               (p.Descripcion1.ToUpper().StartsWith(searchString.ToUpper()) || p.Descripcion1.ToUpper().EndsWith(searchString.ToUpper())) ||
+               (p.Marca.ToUpper().StartsWith(searchString.ToUpper()) || p.Marca.ToUpper().EndsWith(searchString.ToUpper())))).ToList();
+
+            return list;
         }
 
 

@@ -61,8 +61,6 @@ public partial class AnimaliaPetShopEntities : DbContext
 
     public virtual DbSet<Proveedor> Proveedor { get; set; }
 
-    public virtual DbSet<Product> Product { get; set; }
-
     public virtual DbSet<Comprobante> Comprobante { get; set; }
 
     public virtual DbSet<Rol> Rol { get; set; }
@@ -70,6 +68,12 @@ public partial class AnimaliaPetShopEntities : DbContext
     public virtual DbSet<Usuario> Usuario { get; set; }
 
     public virtual DbSet<UsuarioRoles> UsuarioRoles { get; set; }
+
+    public virtual DbSet<TipoAnimal> TipoAnimal { get; set; }
+
+    public virtual DbSet<Product> Product { get; set; }
+
+    public virtual DbSet<TamanoMascota> TamanoMascota { get; set; }
 
 
     public virtual ObjectResult<GetInvoiceDetail_Result> GetInvoiceDetail(Nullable<System.Guid> idComprobante)

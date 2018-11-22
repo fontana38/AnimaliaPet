@@ -19,7 +19,7 @@ namespace ERPAnimalia
         //    var cliente = mapper.Map<ClienteModels>(cli);
         //    return cliente;
         //}
-        public static List<ProductModels> CreateProductList(List<Product> product, List<Category> category, List<SubCategory> subCategory)
+        public static List<ProductModels> CreateProductList(List<Product> product, List<Category> category, List<SubCategory> subCategory, List<TamanoMascota> tamano)
         {
             try
             {
@@ -30,15 +30,18 @@ namespace ERPAnimalia
                 {
                     var cat= category.Find(x => x.IdCategory == item.IdCategory);
                     var subCat = subCategory.Find(x => x.IdSubCategory == item.IdSubCategory);
+                    var tamanoobj = tamano.Find(x => x.IdTamanoMascota == item.IdTamanoMascota);
                     var productMap = mapper.Map<ProductModels>(item);
                     var subCategoryMap = CreateSubCategory(subCat);
                     var categoryMap = CreateCategory(cat);
+                    var tamanoMap = CreateTamano(tamanoobj);
 
                     productMap.CategoryItem = categoryMap;
                     productMap.SubCategoryItem = subCategoryMap;
                     productMap.CategoryName = categoryMap.Name;
                     productMap.SubCategoryName = subCategoryMap.Name;
-                   
+                    productMap.tamanoName = tamanoMap.Nombre;
+
                     list.Add(productMap);
                 }
                 return list;
@@ -65,7 +68,21 @@ namespace ERPAnimalia
             }
              
         }
+        public static TamanoMascotaModel CreateTamano(TamanoMascota tamano)
+        {
+            try
+            {
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                var tamanoMap = mapper.Map<TamanoMascotaModel>(tamano);
+                return tamanoMap;
+            }
+            catch (Exception e)
+            {
 
+                throw new Exception(e.Message.ToString());
+            }
+
+        }
         public static SubCategoryModel CreateSubCategory(SubCategory subCategory)
         {
             try
@@ -253,6 +270,53 @@ namespace ERPAnimalia
             
         }
 
+        public static List<TamanoMascotaModel> CreateTamañoMascotaList(List<TamanoMascota> tamañoMascota)
+        {
+            try
+            {
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                var list = Factory.Factory.CreateListTamañoMascotaModel();
+                list.Add(new TamanoMascotaModel { IdTamanoMascota = 0, Nombre = "Select" });
+                foreach (var item in tamañoMascota)
+                {
+                    var tamañoMascotaMap = mapper.Map<TamanoMascotaModel>(item);
+                    list.Add(tamañoMascotaMap);
+                }
+                return list;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message.ToString());
+            }
+
+        }
+
+        public static List<TipoAnimalModel> CreateTipoAnimalList(List<TipoAnimal> tipoAnimal)
+        {
+            try
+            {
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                var list = Factory.Factory.CreateListTipoAnimmalModel();
+                list.Add(new TipoAnimalModel { IdTipoAnimal = 0, Nombre = "Select" });
+                foreach (var item in tipoAnimal)
+                {
+                    var tipoAnimalMap = mapper.Map<TipoAnimalModel>(item);
+                    list.Add(tipoAnimalMap);
+                }
+
+
+
+                return list;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message.ToString());
+            }
+
+        }
+
         public static SubCategoryModel CreateSubCategoryModel(Product p)
         {
             var newSubCategory = new SubCategoryModel();
@@ -284,7 +348,7 @@ namespace ERPAnimalia
                 
                 NewProduct.IdProducto = Guid.NewGuid();
                 NewProduct.Descripcion1 = product.Descripcion1;
-                NewProduct.Descripcion2 = product.Descripcion2;
+               
                 NewProduct.Marca = product.Marca;
                 NewProduct.Cantidad = product.Cantidad;
                 if(product.IdCategory != (int)Enumeration.Category.Accesorios)
@@ -301,12 +365,17 @@ namespace ERPAnimalia
                 NewProduct.Codigo = product.Codigo;
                 NewProduct.IdCategory = product.IdCategory;
 
-                if(product.IdSubCategory != null)
+                if(product.IdSubCategory != 0)
                 {
                     NewProduct.IdSubCategory = product.IdSubCategory;
                 }
-                
-                NewProduct.PrecioVenta = Math.Round(product.PrecioVenta,2);
+
+            if (product.IdTamanoMascota != 0)
+            {
+                NewProduct.IdTamanoMascota = product.IdTamanoMascota;
+            }
+
+            NewProduct.PrecioVenta = Math.Round(product.PrecioVenta,2);
                 
                 if (product.IdSubCategory != (int)Enumeration.Subcategory.Suelto)
                 {
@@ -333,7 +402,6 @@ namespace ERPAnimalia
             {
                 productDb.IdProducto = product.IdProducto;
                 productDb.Descripcion1 = product.Descripcion1;
-                productDb.Descripcion2 = product.Descripcion2;
                 productDb.Marca = product.Marca;
                 productDb.Cantidad = product.Cantidad;
 

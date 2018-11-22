@@ -55,7 +55,7 @@
                         { field: "Codigo", title: "Código", sortable: true, width: 80 },
                         { field: "Marca", title: "Marca", sortable: true, width: 150 },
                         { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 200 },
-                        { field: "Descripcion2", title: "Descripcion 2", sortable: true, width: 200}
+                        { field: "kg", title: "kg", sortable: true, width: 200}
                     ],
                     selectionMethod: 'checkbox',
                     selectionType: 'multiple',
@@ -98,7 +98,7 @@
                         { field: "Codigo", title: "Código", sortable: true, width: 80 },
                         { field: "Marca", title: "Marca", sortable: true, width: 150 },
                         { field: "Descripcion1", title: "Descripcion 1", sortable: true, width: 200 },
-                        { field: "Descripcion2", title: "Descripcion 2", sortable: true, width: 200 },
+                        { field: "kg", title: "Kg", sortable: true, width: 200 },
                     { title: "", field: "Delete", width: 34, type: "icon", icon: "glyphicon-remove", tooltip: "Delete", events: { "click": RemoveProduct } }
                     ],
                    
@@ -136,6 +136,7 @@
                 debugger;
                 gridProduct.reload({ searchString: $("#searchProduct").val() });
             }
+
             function Edit(e) {
                
                 debugger;
@@ -314,7 +315,7 @@
         <div class="panel-heading">Cliente</div>
         <div class="panel-body">
         <div class="form-group row">
-            <div class="col-md-2 col-md-offset-1">
+            <div class="col-md-3 col-md-offset-1">
                 <div class="input-group">
                     <input type="text" id="search" class="form-control" placeholder="Search for...">
                     <span class="input-group-btn">
@@ -424,7 +425,7 @@
                                         <div class="col-md-5">
 
                                             <div class="input-group">
-                                                <input type="text" id="searchProduct" class="form-control" placeholder="Search for...">
+                                                <input type="text" id="searchProduct" class="form-control" placeholder="Search for...">                         
                                                 <span class="input-group-btn">
                                                     <button type="button" id="btnSearchGridProduct" class="btn btn-default">Go!</button>
                                                 </span>

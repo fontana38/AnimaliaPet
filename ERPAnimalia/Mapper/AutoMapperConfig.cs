@@ -44,6 +44,8 @@ namespace ERPAnimalia.Mapper
                 cfg.CreateMap<GetInvoice_Result2, InvoiceModel>();
                 cfg.CreateMap<GetInvoiceDetail_Result, InvoiceDetailModel>();
                 cfg.CreateMap<TipoComprobante, TipoComprobantesModel>();
+                cfg.CreateMap<TipoAnimal, TipoAnimalModel>();
+                cfg.CreateMap<TamanoMascota, TamanoMascotaModel>();
             });
 
            

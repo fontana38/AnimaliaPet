@@ -33,8 +33,14 @@ namespace ERPAnimalia.Controllers
         [Route("Index")]
         public ActionResult Index(ProductModels product)
         {
-            product.SubCategory = ProductManagers.GetSubCategory();
-            product.Category = ProductManagers.GetCategory();
+            if(product.Category == null)
+            {
+                product.SubCategory = ProductManagers.GetSubCategory();
+                product.Category = ProductManagers.GetCategory();
+                product.TipoAnimalList = ProductManagers.GetTipoAnimal();
+                product.TamanoMascotaList = ProductManagers.GetTamañoMascota();
+            }
+           
             return View(product);
         }
 
@@ -55,18 +61,30 @@ namespace ERPAnimalia.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetProduct(int? page, int? limit, string sortBy, string direction, string searchString = null, string searchStringSub = null,string idCategory=null,string idSubCategory=null)
+        public JsonResult GetProduct(int? page, int? limit, string sortBy, string direction, string searchString = null,string idCategory=null,string idTamanoMascota=null,string idSubCategory=null)
         {
             int total;
-            sortBy =(sortBy==null) ? "Codigo" : sortBy;
-            direction = (direction == null) ? "asc" : direction;
-            var records = ProductManagers.GetProductList(page, limit, sortBy, direction, searchString, searchStringSub,idCategory,idSubCategory, out total);
-            foreach (var item in records)
+            try
             {
-                item.PrecioCosto = Math.Round(item.PrecioCosto, 2);
-                item.PrecioVenta = Math.Round(item.PrecioVenta, 2);
+                
+                sortBy = (sortBy == null) ? "Codigo" : sortBy;
+                direction = (direction == null) ? "asc" : direction;
+                var records = ProductManagers.GetProductList(page, limit, sortBy, direction, searchString, idCategory, idSubCategory,idTamanoMascota, out total);
+                foreach (var item in records)
+                {
+                    item.PrecioCosto = Math.Round(item.PrecioCosto, 2);
+                    item.PrecioVenta = Math.Round(item.PrecioVenta, 2);
+                }
+
+                return Json(new { records, total }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { records, total }, JsonRequestBehavior.AllowGet);
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message.ToString()); 
+            }
+            
+            
         }
 
         [HttpGet]

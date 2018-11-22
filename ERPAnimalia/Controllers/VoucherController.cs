@@ -35,8 +35,9 @@ namespace ERPAnimalia.Controllers
         [HttpGet]
         public ActionResult HeadVoucher(string ids)
         {
-            
-           if (ids.Length > 0)
+            string method =Request.HttpMethod;
+           
+           if (!String.IsNullOrEmpty(ids))
             {
               string[] productList = ids.Split(',');
 
@@ -50,6 +51,7 @@ namespace ERPAnimalia.Controllers
            
            var voucherModel =Factory.VoucherFactory.CreateVoucherHeadModel();
            voucherDetailModel = Factory.VoucherFactory.CreateVoucherDetailModel();
+
             TempData["idProducts"] = idProducts;
 
             ViewData["listTipoComprobante"] = VoucherDetailManager.GetTipoComprobante();
@@ -140,6 +142,8 @@ namespace ERPAnimalia.Controllers
                 {
                     detailGridTemp = AgregarProductosGrilla(detailGridTemp, detailGridList, listProduct, term, itemProduct, cantidad, descuento);
                 }
+
+                TempData["idProducts"] = null;
             }
 
             else
@@ -155,8 +159,9 @@ namespace ERPAnimalia.Controllers
             var records= (detailGridTemp!=null) ? detailGridTemp: detailGridList;
            
             total = (detailGridTemp != null) ? detailGridTemp.Count() : detailGridList.Count();
-            return Json(new { records, total }, JsonRequestBehavior.AllowGet);
 
+
+            return Json(new { records, total }, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -199,7 +204,7 @@ namespace ERPAnimalia.Controllers
 
                 }
             }
-            else if (!String.IsNullOrEmpty(term))
+            else if (!String.IsNullOrEmpty(term)|| listProduct.Count > 0)
             {
                 detailGridTemp = new List<DetailGrid>();
                 detailGridTemp.Add(detailGrid);

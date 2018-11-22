@@ -154,6 +154,8 @@
           <Property Name="PrecioVenta" Type="decimal" Precision="18" Scale="4" />
           <Property Name="PrecioCosto" Type="decimal" Precision="18" Scale="4" />
           <Property Name="TotalKg" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="IdTamanoMascota" Type="int" />
+          <Property Name="idTipoAnimal" Type="int" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -182,6 +184,20 @@
           </Key>
           <Property Name="IdSubCategory" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TamanoMascota">
+          <Key>
+            <PropertyRef Name="IdTamanoMascota" />
+          </Key>
+          <Property Name="IdTamanoMascota" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TipoAnimal">
+          <Key>
+            <PropertyRef Name="IdTipoAnimal" />
+          </Key>
+          <Property Name="IdTipoAnimal" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="TipoComprobante">
           <Key>
@@ -456,6 +472,8 @@
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TamanoMascota" EntityType="Self.TamanoMascota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoAnimal" EntityType="Self.TipoAnimal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsuarioRoles" EntityType="Self.UsuarioRoles" Schema="dbo" store:Type="Tables" />
@@ -570,23 +588,6 @@
             <End Role="Proveedor" EntitySet="Proveedor" />
             <End Role="IdProveedorProducto" EntitySet="IdProveedorProducto" />
           </AssociationSet>
-          <EntitySet Name="Product" EntityType="AnimaliaPetShopModel.Product" />
-          <AssociationSet Name="FK_Product_Category" Association="AnimaliaPetShopModel.FK_Product_Category">
-            <End Role="Category" EntitySet="Category" />
-            <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IdClienteIdProducto_Product" Association="AnimaliaPetShopModel.FK_IdClienteIdProducto_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="IdClienteIdProducto" EntitySet="IdClienteIdProducto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IdProveedorProducto_Product" Association="AnimaliaPetShopModel.FK_IdProveedorProducto_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="IdProveedorProducto" EntitySet="IdProveedorProducto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_SubCategory" Association="AnimaliaPetShopModel.FK_Product_SubCategory">
-            <End Role="SubCategory" EntitySet="SubCategory" />
-            <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
           <EntitySet Name="Comprobante" EntityType="AnimaliaPetShopModel.Comprobante" />
           <EntitySet Name="Rol" EntityType="AnimaliaPetShopModel.Rol" />
           <EntitySet Name="Usuario" EntityType="AnimaliaPetShopModel.Usuario" />
@@ -633,6 +634,25 @@
             <Parameter Name="DateTo" Mode="In" Type="DateTime" />
             <Parameter Name="IdTypeVoucher" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="TipoAnimal" EntityType="AnimaliaPetShopModel.TipoAnimal" />
+          <EntitySet Name="Product" EntityType="AnimaliaPetShopModel.Product" />
+          <EntitySet Name="TamanoMascota" EntityType="AnimaliaPetShopModel.TamanoMascota" />
+          <AssociationSet Name="FK_Product_Category" Association="AnimaliaPetShopModel.FK_Product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdClienteIdProducto_Product" Association="AnimaliaPetShopModel.FK_IdClienteIdProducto_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IdClienteIdProducto" EntitySet="IdClienteIdProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdProveedorProducto_Product" Association="AnimaliaPetShopModel.FK_IdProveedorProducto_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IdProveedorProducto" EntitySet="IdProveedorProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_SubCategory" Association="AnimaliaPetShopModel.FK_Product_SubCategory">
+            <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="FormaDePago">
           <Key>
@@ -838,79 +858,6 @@
             </Principal>
             <Dependent Role="IdProveedorProducto">
               <PropertyRef Name="IdProveedor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="IdProducto" />
-          </Key>
-          <Property Name="Codigo" Type="Double" />
-          <Property Name="Marca" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Descripcion1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="Kg" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="IdProducto" Type="Guid" Nullable="false" />
-          <Property Name="CodigoBarra" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IdCategory" Type="Int32" />
-          <Property Name="IdSubCategory" Type="Int32" />
-          <Property Name="Descripcion2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RentabilidadPesos" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="Rentabilidad" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="PrecioVenta" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="PrecioCosto" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="TotalKg" Type="Decimal" Precision="18" Scale="4" />
-          <NavigationProperty Name="Category" Relationship="AnimaliaPetShopModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
-          <NavigationProperty Name="IdClienteIdProducto" Relationship="AnimaliaPetShopModel.FK_IdClienteIdProducto_Product" FromRole="Product" ToRole="IdClienteIdProducto" />
-          <NavigationProperty Name="IdProveedorProducto" Relationship="AnimaliaPetShopModel.FK_IdProveedorProducto_Product" FromRole="Product" ToRole="IdProveedorProducto" />
-          <NavigationProperty Name="SubCategory" Relationship="AnimaliaPetShopModel.FK_Product_SubCategory" FromRole="Product" ToRole="SubCategory" />
-        </EntityType>
-        <Association Name="FK_Product_Category">
-          <End Type="AnimaliaPetShopModel.Category" Role="Category" Multiplicity="0..1" />
-          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="IdCategory" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="IdCategory" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IdClienteIdProducto_Product">
-          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="AnimaliaPetShopModel.IdClienteIdProducto" Role="IdClienteIdProducto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="IdProducto" />
-            </Principal>
-            <Dependent Role="IdClienteIdProducto">
-              <PropertyRef Name="IdProducto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IdProveedorProducto_Product">
-          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="AnimaliaPetShopModel.IdProveedorProducto" Role="IdProveedorProducto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="IdProducto" />
-            </Principal>
-            <Dependent Role="IdProveedorProducto">
-              <PropertyRef Name="IdProducto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_SubCategory">
-          <End Type="AnimaliaPetShopModel.SubCategory" Role="SubCategory" Multiplicity="0..1" />
-          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SubCategory">
-              <PropertyRef Name="IdSubCategory" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="IdSubCategory" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1128,6 +1075,95 @@
           <Property Type="String" Name="TipoComprobante" Nullable="true" />
           <Property Type="Guid" Name="IdComprobante" Nullable="false" />
         </ComplexType>
+        <EntityType Name="TipoAnimal">
+          <Key>
+            <PropertyRef Name="IdTipoAnimal" />
+          </Key>
+          <Property Name="IdTipoAnimal" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="Codigo" Type="Double" />
+          <Property Name="Marca" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Kg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdProducto" Type="Guid" Nullable="false" />
+          <Property Name="CodigoBarra" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdCategory" Type="Int32" />
+          <Property Name="IdSubCategory" Type="Int32" />
+          <Property Name="Descripcion2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RentabilidadPesos" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Rentabilidad" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PrecioVenta" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PrecioCosto" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TotalKg" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdTamanoMascota" Type="Int32" />
+          <Property Name="idTipoAnimal" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="AnimaliaPetShopModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="IdClienteIdProducto" Relationship="AnimaliaPetShopModel.FK_IdClienteIdProducto_Product" FromRole="Product" ToRole="IdClienteIdProducto" />
+          <NavigationProperty Name="IdProveedorProducto" Relationship="AnimaliaPetShopModel.FK_IdProveedorProducto_Product" FromRole="Product" ToRole="IdProveedorProducto" />
+          <NavigationProperty Name="SubCategory" Relationship="AnimaliaPetShopModel.FK_Product_SubCategory" FromRole="Product" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="TamanoMascota">
+          <Key>
+            <PropertyRef Name="IdTamanoMascota" />
+          </Key>
+          <Property Name="IdTamanoMascota" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Product_Category">
+          <End Type="AnimaliaPetShopModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="IdCategory" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="IdCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdClienteIdProducto_Product">
+          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="AnimaliaPetShopModel.IdClienteIdProducto" Role="IdClienteIdProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="IdClienteIdProducto">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdProveedorProducto_Product">
+          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="AnimaliaPetShopModel.IdProveedorProducto" Role="IdProveedorProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="IdProveedorProducto">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_SubCategory">
+          <End Type="AnimaliaPetShopModel.SubCategory" Role="SubCategory" Multiplicity="0..1" />
+          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="IdSubCategory" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="IdSubCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1285,28 +1321,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="AnimaliaPetShopModel.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="TotalKg" ColumnName="TotalKg" />
-                <ScalarProperty Name="PrecioCosto" ColumnName="PrecioCosto" />
-                <ScalarProperty Name="PrecioVenta" ColumnName="PrecioVenta" />
-                <ScalarProperty Name="Rentabilidad" ColumnName="Rentabilidad" />
-                <ScalarProperty Name="RentabilidadPesos" ColumnName="RentabilidadPesos" />
-                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
-                <ScalarProperty Name="Descripcion2" ColumnName="Descripcion2" />
-                <ScalarProperty Name="IdSubCategory" ColumnName="IdSubCategory" />
-                <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
-                <ScalarProperty Name="CodigoBarra" ColumnName="CodigoBarra" />
-                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
-                <ScalarProperty Name="Kg" ColumnName="Kg" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Descripcion1" ColumnName="Descripcion1" />
-                <ScalarProperty Name="Marca" ColumnName="Marca" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Comprobante">
             <EntityTypeMapping TypeName="AnimaliaPetShopModel.Comprobante">
               <MappingFragment StoreEntitySet="Comprobante">
@@ -1395,6 +1409,46 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="TipoAnimal">
+            <EntityTypeMapping TypeName="AnimaliaPetShopModel.TipoAnimal">
+              <MappingFragment StoreEntitySet="TipoAnimal">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdTipoAnimal" ColumnName="IdTipoAnimal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="AnimaliaPetShopModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="idTipoAnimal" ColumnName="idTipoAnimal" />
+                <ScalarProperty Name="IdTamanoMascota" ColumnName="IdTamanoMascota" />
+                <ScalarProperty Name="TotalKg" ColumnName="TotalKg" />
+                <ScalarProperty Name="PrecioCosto" ColumnName="PrecioCosto" />
+                <ScalarProperty Name="PrecioVenta" ColumnName="PrecioVenta" />
+                <ScalarProperty Name="Rentabilidad" ColumnName="Rentabilidad" />
+                <ScalarProperty Name="RentabilidadPesos" ColumnName="RentabilidadPesos" />
+                <ScalarProperty Name="Presentacion" ColumnName="Presentacion" />
+                <ScalarProperty Name="Descripcion2" ColumnName="Descripcion2" />
+                <ScalarProperty Name="IdSubCategory" ColumnName="IdSubCategory" />
+                <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
+                <ScalarProperty Name="CodigoBarra" ColumnName="CodigoBarra" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Kg" ColumnName="Kg" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Descripcion1" ColumnName="Descripcion1" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TamanoMascota">
+            <EntityTypeMapping TypeName="AnimaliaPetShopModel.TamanoMascota">
+              <MappingFragment StoreEntitySet="TamanoMascota">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdTamanoMascota" ColumnName="IdTamanoMascota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
