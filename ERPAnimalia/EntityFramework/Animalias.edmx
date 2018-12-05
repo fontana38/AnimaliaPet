@@ -421,6 +421,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Product_TamanoMascota">
+          <End Role="TamanoMascota" Type="Self.TamanoMascota" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TamanoMascota">
+              <PropertyRef Name="IdTamanoMascota" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="IdTamanoMascota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UsuarioRoles_Rol">
           <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
           <End Role="UsuarioRoles" Type="Self.UsuarioRoles" Multiplicity="*" />
@@ -541,6 +553,10 @@
             <End Role="SubCategory" EntitySet="SubCategory" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <AssociationSet Name="FK_Product_TamanoMascota" Association="Self.FK_Product_TamanoMascota">
+            <End Role="TamanoMascota" EntitySet="TamanoMascota" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
           <AssociationSet Name="FK_UsuarioRoles_Rol" Association="Self.FK_UsuarioRoles_Rol">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="UsuarioRoles" EntitySet="UsuarioRoles" />
@@ -635,8 +651,8 @@
             <Parameter Name="IdTypeVoucher" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="TipoAnimal" EntityType="AnimaliaPetShopModel.TipoAnimal" />
-          <EntitySet Name="Product" EntityType="AnimaliaPetShopModel.Product" />
           <EntitySet Name="TamanoMascota" EntityType="AnimaliaPetShopModel.TamanoMascota" />
+          <EntitySet Name="Product" EntityType="AnimaliaPetShopModel.Product" />
           <AssociationSet Name="FK_Product_Category" Association="AnimaliaPetShopModel.FK_Product_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="Product" EntitySet="Product" />
@@ -651,6 +667,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Product_SubCategory" Association="AnimaliaPetShopModel.FK_Product_SubCategory">
             <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_TamanoMascota" Association="AnimaliaPetShopModel.FK_Product_TamanoMascota">
+            <End Role="TamanoMascota" EntitySet="TamanoMascota" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           </EntityContainer>
@@ -1082,6 +1102,14 @@
           <Property Name="IdTipoAnimal" Type="Int32" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="TamanoMascota">
+          <Key>
+            <PropertyRef Name="IdTamanoMascota" />
+          </Key>
+          <Property Name="IdTamanoMascota" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="AnimaliaPetShopModel.FK_Product_TamanoMascota" FromRole="TamanoMascota" ToRole="Product" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="IdProducto" />
@@ -1108,13 +1136,7 @@
           <NavigationProperty Name="IdClienteIdProducto" Relationship="AnimaliaPetShopModel.FK_IdClienteIdProducto_Product" FromRole="Product" ToRole="IdClienteIdProducto" />
           <NavigationProperty Name="IdProveedorProducto" Relationship="AnimaliaPetShopModel.FK_IdProveedorProducto_Product" FromRole="Product" ToRole="IdProveedorProducto" />
           <NavigationProperty Name="SubCategory" Relationship="AnimaliaPetShopModel.FK_Product_SubCategory" FromRole="Product" ToRole="SubCategory" />
-        </EntityType>
-        <EntityType Name="TamanoMascota">
-          <Key>
-            <PropertyRef Name="IdTamanoMascota" />
-          </Key>
-          <Property Name="IdTamanoMascota" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TamanoMascota" Relationship="AnimaliaPetShopModel.FK_Product_TamanoMascota" FromRole="Product" ToRole="TamanoMascota" />
         </EntityType>
         <Association Name="FK_Product_Category">
           <End Type="AnimaliaPetShopModel.Category" Role="Category" Multiplicity="0..1" />
@@ -1161,6 +1183,18 @@
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="IdSubCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_TamanoMascota">
+          <End Type="AnimaliaPetShopModel.TamanoMascota" Role="TamanoMascota" Multiplicity="0..1" />
+          <End Type="AnimaliaPetShopModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TamanoMascota">
+              <PropertyRef Name="IdTamanoMascota" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="IdTamanoMascota" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1417,6 +1451,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TamanoMascota">
+            <EntityTypeMapping TypeName="AnimaliaPetShopModel.TamanoMascota">
+              <MappingFragment StoreEntitySet="TamanoMascota">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdTamanoMascota" ColumnName="IdTamanoMascota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="AnimaliaPetShopModel.Product">
               <MappingFragment StoreEntitySet="Product">
@@ -1438,14 +1480,6 @@
                 <ScalarProperty Name="Descripcion1" ColumnName="Descripcion1" />
                 <ScalarProperty Name="Marca" ColumnName="Marca" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TamanoMascota">
-            <EntityTypeMapping TypeName="AnimaliaPetShopModel.TamanoMascota">
-              <MappingFragment StoreEntitySet="TamanoMascota">
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="IdTamanoMascota" ColumnName="IdTamanoMascota" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

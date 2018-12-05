@@ -274,14 +274,20 @@ namespace ERPAnimalia
         {
             try
             {
-                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
                 var list = Factory.Factory.CreateListTamañoMascotaModel();
-                list.Add(new TamanoMascotaModel { IdTamanoMascota = 0, Nombre = "Select" });
-                foreach (var item in tamañoMascota)
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                if (list.Count()==0)
                 {
-                    var tamañoMascotaMap = mapper.Map<TamanoMascotaModel>(item);
-                    list.Add(tamañoMascotaMap);
+                    
+                    list.Add(new TamanoMascotaModel { IdTamanoMascota = 0, Nombre = "Select" });
+                    foreach (var item in tamañoMascota)
+                    {
+                        var tamañoMascotaMap = mapper.Map<TamanoMascotaModel>(item);
+                        list.Add(tamañoMascotaMap);
+                    }
                 }
+               
+               
                 return list;
             }
             catch (Exception e)
@@ -336,7 +342,8 @@ namespace ERPAnimalia
                 var subCategoryMap = CreateSubCategory(product.SubCategory);
                 productMap.CategoryItem = category;
                 productMap.SubCategoryItem = subCategoryMap;
-                
+                productMap.tamanoItem = CreateTamano(product.TamanoMascota);
+
             return productMap;
         }
         
@@ -404,6 +411,7 @@ namespace ERPAnimalia
                 productDb.Descripcion1 = product.Descripcion1;
                 productDb.Marca = product.Marca;
                 productDb.Cantidad = product.Cantidad;
+                productDb.IdTamanoMascota = product.IdTamanoMascota;
 
                 if(product.IdCategory == (int)Enumeration.Category.Accesorios)
                 {

@@ -79,6 +79,8 @@ public partial class Product
 
     public virtual SubCategory SubCategory { get; set; }
 
+    public virtual TamanoMascota TamanoMascota { get; set; }
+
 }
 
 }

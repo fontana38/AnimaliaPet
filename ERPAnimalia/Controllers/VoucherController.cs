@@ -337,7 +337,22 @@ namespace ERPAnimalia.Controllers
         }
 
 
+        [HttpPost]
+        public JsonResult RemoveData()
+        {
+            try
+            {
+                TempData["DetailGrid"] =null;
+                return Json(true);
+            }
+            catch (Exception)
+            {
+
+                return Json(false);
+            }
+        }
 
 
-    }
+
+        }
 }

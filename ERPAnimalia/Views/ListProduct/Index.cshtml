@@ -57,9 +57,18 @@
 
             $("#btnSearch").on("click", Search);
            
-          
+            $('input[type="text"]').keydown(function (event) {
+                debugger;
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    Search();
+                    return false;
+                }
+            });
            
-            $('#search').keypress(function (event) {
+            $('#txtsearch').keypress(function (event) {
+                debugger;
+
                 if (event.keyCode == 13) {
                 
                     Search();
@@ -73,7 +82,7 @@
        
         function Search() {
             debugger;
-            gridProduct.reload({ searchString: $("#search").val(), idCategory: $("#IdCategory").val(), idSubCategory: $("#IdSubCategory").val(), idTamanoMascota: $("#IdTamanoMascota").val() });
+            gridProduct.reload({ searchString: $("#txtsearch").val(), idCategory: $("#IdCategory").val(), idSubCategory: $("#IdSubCategory").val(), idTamanoMascota: $("#IdTamanoMascota").val() });
         }
         function ItemFacturar()
         {
@@ -131,7 +140,7 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" id="search" class="form-control" placeholder="Buscar por Marca">
+                    <input type="text" id="txtsearch" class="form-control" placeholder="Buscar por Marca">
                     <span class="input-group-btn">
                         <button type="button" id="btnSearch" class="btn btn-default">Buscar</button>
                     </span>

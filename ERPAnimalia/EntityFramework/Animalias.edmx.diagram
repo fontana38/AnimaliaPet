@@ -36,12 +36,13 @@
         <AssociationConnector Association="AnimaliaPetShopModel.FK_UsuarioRoles_Rol" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_UsuarioRoles_Usuario" />
         <EntityTypeShape EntityType="AnimaliaPetShopModel.TipoAnimal" Width="1.5" PointX="13.375" PointY="2.375" />
-        <EntityTypeShape EntityType="AnimaliaPetShopModel.Product" Width="1.5" PointX="16" PointY="4.375" />
         <EntityTypeShape EntityType="AnimaliaPetShopModel.TamanoMascota" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AnimaliaPetShopModel.Product" Width="1.5" PointX="15.625" PointY="4.25" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_Product_Category" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_IdClienteIdProducto_Product" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_IdProveedorProducto_Product" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_Product_SubCategory" />
+        <AssociationConnector Association="AnimaliaPetShopModel.FK_Product_TamanoMascota" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

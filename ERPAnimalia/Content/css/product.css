@@ -35,5 +35,10 @@ tbody{
     background-color: #ff6347;
     font-weight:bold;
 }
+   .validation-summary-errors
+        {
+            font-weight: bold !important;
+            color: #ff0000 !important;
+        }
 
  

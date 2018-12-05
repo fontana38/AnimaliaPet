@@ -129,6 +129,7 @@ namespace ERPAnimalia.Models
 
             productMap.Category = GetCategoryList();
             productMap.SubCategory = GetSubCategoryList();
+            productMap.TamanoMascotaList = GetTamañoMascota();
             return productMap;
         }
 
@@ -167,7 +168,7 @@ namespace ERPAnimalia.Models
 
         public List<TamanoMascotaModel> GetTamañoMascota()
         {
-
+            
             var tamañoMascota = db.TamanoMascota.ToList();
 
             return MapperObject.CreateTamañoMascotaList(tamañoMascota);

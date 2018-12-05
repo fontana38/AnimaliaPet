@@ -170,6 +170,11 @@
 
                 </div>
                 <div class="form-group">
+                    <label class="col-md-4" for="desc">Descripción:</label>
+                    @Html.TextBoxFor(m => m.Descripcion1, new { @class = "form-control", type = "text", placeholder = "Ingrese Descripción1" })
+                </div>
+
+                <div class="form-group">
                     <label class="col-md-4" for="desc">Categoria:</label>
                     @Html.DropDownListFor(model => Model.IdCategory,
              new SelectList(Model.Category, "IdCategory", "Name"), new { @class = "form-control", type = "text", placeholder = "Seleccione Categoria", onchange = "HideSubcategory()" })
@@ -180,18 +185,15 @@
              new SelectList(Model.SubCategory, "IdSubCategory", "Name"), new { @class = "form-control", type = "text", placeholder = "Seleccione Categoria" , @onchange = "CalculateRentabilidadDropDown()" })
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4" for="desc">Marca:</label>
-                    @Html.TextBoxFor(m => m.Marca, new { @class = "form-control", type = "text", placeholder = "Ingrese Marca" })
-                </div>
-                <div class="form-group">
-                    <label class="col-md-4" for="desc">Descripción:</label>
-                    @Html.TextBoxFor(m => m.Descripcion1, new { @class = "form-control", type = "text", placeholder = "Ingrese Descripción1" })
-                </div>
-                <div class="form-group">
                     <label class="col-md-4" for="desc">Tamaño:</label>
                     @Html.DropDownListFor(model => model.IdTamanoMascota,
              new SelectList(Model.TamanoMascotaList, "IdTamanoMascota", "Nombre"), new { @class = "form-control", type = "text", placeholder = "Seleccione Cachorro o Adulto" })
                 </div>
+                <div class="form-group">
+                    <label class="col-md-4" for="desc">Marca:</label>
+                    @Html.TextBoxFor(m => m.Marca, new { @class = "form-control", type = "text", placeholder = "Ingrese Marca" })
+                </div>
+                
             </div>
             <div class="col-md-6">
                 <div class="form-group">

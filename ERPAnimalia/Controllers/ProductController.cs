@@ -73,12 +73,14 @@ namespace ERPAnimalia.Controllers
                 ProductManagers.SaveProduct(product);
                 product.Category = ProductManagers.GetCategory();
                 product.SubCategory = ProductManagers.GetSubCategory();
+                product.TamanoMascotaList = ProductManagers.GetTamañoMascota();
                 return RedirectToAction("Index", "ListProduct");
 
             }
             product.Category = ProductManagers.GetCategory();
             product.SubCategory = ProductManagers.GetSubCategory();
-           
+            product.TamanoMascotaList = ProductManagers.GetTamañoMascota();
+
             return View("Add", product);
         }
 
@@ -106,6 +108,7 @@ namespace ERPAnimalia.Controllers
            var productEdit = ProductManagers.GetProductById(ids);
             productEdit.Category = ProductManagers.GetCategory();
             productEdit.SubCategory = ProductManagers.GetSubCategory();
+            productEdit.TamanoMascotaList = ProductManagers.GetTamañoMascota();
             return View(productEdit);
         }
 
@@ -117,9 +120,16 @@ namespace ERPAnimalia.Controllers
             {
                 ModelState.Remove("IdCategory");
                 ModelState.Remove("Rentabilidad");
-                if (product.IdCategory == 0 || product.IdSubCategory == 0)
+               
+
+                if (product.IdCategory == 0 || product.IdSubCategory == 0 || product.IdTamanoMascota == 0)
                 {
-                    ModelState.AddModelError(string.Empty, "La categoria y la subcategoria deben ser seleccionadas");
+                    ModelState.AddModelError(string.Empty, "La categoria , subcategoria y tamaño deben ser seleccionadas");
+                    product.Category = ProductManagers.GetCategory();
+                    product.SubCategory = ProductManagers.GetSubCategory();
+                    product.TamanoMascotaList = ProductManagers.GetTamañoMascota();
+
+                    return View(product);
                 }
 
                 if (ModelState.IsValid)
@@ -127,19 +137,20 @@ namespace ERPAnimalia.Controllers
                     ProductManagers.EditProduct(product);
                     product.Category = ProductManagers.GetCategory();
                     product.SubCategory = ProductManagers.GetSubCategory();
-                    
+                    product.TamanoMascotaList = ProductManagers.GetTamañoMascota();
+
 
                     return RedirectToAction("Index", "ListProduct");
                 }
                 product.Category = ProductManagers.GetCategory();
                 product.SubCategory = ProductManagers.GetSubCategory();
 
-                return View();
+                return View(product);
 
             }
             catch
             {
-                return View();
+                return View(product);
             }
         }
 

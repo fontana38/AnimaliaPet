@@ -116,7 +116,8 @@
                 SaveEnabled();
             });
 
-           $("#btnSave").on("click", Save);
+            $("#btnSave").on("click", Save);
+            $("#btnRemoveData").on("click", removeData);
        });
            
             function CalculateRow(record) {
@@ -137,17 +138,36 @@
                 });
             }
 
-            function GetTotal()
-            {
-                
+            function GetTotal() {
+
                 if (gridDetail.count() != 0) {
                     debugger;
-                        var totalRows = gridDetail.count();
-                        var row = gridDetail.get(totalRows);
-                        $("#totalVoucher").val(row.Total);
-                    }
+                    var totalRows = gridDetail.count();
+                    var row = gridDetail.get(totalRows);
+                    $("#totalVoucher").val(row.Total);
+                }
             }
 
+            function removeData() {
+                debugger;
+                if (gridDetail.count() != 0) {
+                    $.ajax({ url: "/Voucher/RemoveData", type: "POST" })
+
+                    .done(function (data) {
+                        if (data != '') {
+                            gridDetail.reload();
+                            GetTotal(data);
+                            alert("Datos Borrados")
+                        }
+                        else {
+                            alert(data);
+                        }
+
+                    })
+                }
+            }
+                 
+            
             function Save() {
                 var client = $("#NombreCompleto").val();
                 var dateVoucher = $("#DateVoucher").val();             
@@ -279,6 +299,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" id="btnSave" class="btn btn-primary">Save</button>
+                    <button type="button" id="btnRemoveData" class="btn btn-primary">Borrar</button>
                 </div>
             </div>
         </div>
