@@ -262,8 +262,9 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="productTab">
                     <form class="form-horizontal">
-
                         <div class="row">
+                            </br>
+                            </br>
                             <div class="col-md-5">
                                 <label class="control-label col-md-2">Producto:</label>
                                 @Html.HiddenFor(model => model.ProductModel.First().IdProducto)
@@ -296,10 +297,11 @@
                     
                 
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" id="btnSave" class="btn btn-primary">Save</button>
-                    <button type="button" id="btnRemoveData" class="btn btn-primary">Borrar</button>
+                <div  class="modal-footer left">
+                   
+                    <button type="button" id="btnSave" class="btn btn-primary left"><span class="glyphicon glyphicon-ok"></span>  Guardar
+                    </button>
+                    <button type="button" id="btnRemoveData" class="btn btn-primary left"> <span class="glyphicon glyphicon-trash"></span>  Borrar</button>
                 </div>
             </div>
         </div>

@@ -1,0 +1,52 @@
+﻿using ERPAnimalia.Models;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lista de Produtos</title>
+
+    <script src="~/Scripts/gijgo/combined/gijgo.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <link href="~/Content/css/product.css" rel="stylesheet" />
+    @model ProductModels
+</head>
+<body>
+    <script type="text/javascript">
+   
+    </script>
+
+    @using (Html.BeginForm("SaveProduct", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+
+        <div class="form-group">
+
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label class="col-md-4" for="pwd">Código </label>
+                    @Html.TextBoxFor(m => m.CodigoBarra, new { @class = "form-control", type = "text", placeholder = "Ingrese Codigo Barra", onkeyPress = "MyFunction();" })
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4" for="pwd">Producto </label>
+                    @Html.LabelFor(m => m.CodigoBarra, new { @class = "form-control", type = "text", placeholder = "Ingrese Codigo Barra", onkeyPress = "MyFunction();" })
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4" for="pwd">Cantidad Total </label>
+                    @Html.LabelFor(m => m.CodigoBarra, new { @class = "form-control", type = "text", placeholder = "Ingrese Codigo Barra", onkeyPress = "MyFunction();" })
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4" for="desc">Cantidad Sucursal:</label>
+                    @Html.TextBoxFor(m => m.CantidadSucursal, new { @class = "form-control", type = "text", placeholder = "Ingrese Descripción1" })
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4" for="desc">Sucursal:</label>
+                    @Html.DropDownListFor(model => model.IdTamanoMascota,
+             new SelectList(Model.TamanoMascotaList, "IdTamanoMascota", "Nombre"), new { @class = "form-control", type = "text", placeholder = "Seleccione Cachorro o Adulto" })
+                </div>
+
+</body>
+</html>

@@ -149,6 +149,14 @@ namespace ERPAnimalia.Factory
 
         }
 
+        public static SucursalProductoModel CreateSucursalProductoModel()
+        {
+            var sucursalProducto = new SucursalProductoModel();
+           
+            return sucursalProducto;
+
+        }
+
 
     }
 

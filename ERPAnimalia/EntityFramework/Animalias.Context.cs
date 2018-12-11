@@ -75,6 +75,8 @@ public partial class AnimaliaPetShopEntities : DbContext
 
     public virtual DbSet<Product> Product { get; set; }
 
+    public virtual DbSet<SucProducto> SucProducto { get; set; }
+
 
     public virtual ObjectResult<GetInvoiceDetail_Result> GetInvoiceDetail(Nullable<System.Guid> idComprobante)
     {

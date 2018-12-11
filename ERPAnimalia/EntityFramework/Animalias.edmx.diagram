@@ -43,6 +43,7 @@
         <AssociationConnector Association="AnimaliaPetShopModel.FK_IdProveedorProducto_Product" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_Product_SubCategory" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_Product_TamanoMascota" />
+        <EntityTypeShape EntityType="AnimaliaPetShopModel.SucProducto" Width="1.5" PointX="0.75" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

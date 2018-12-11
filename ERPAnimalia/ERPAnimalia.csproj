@@ -238,6 +238,7 @@
     <Compile Include="Controllers\LoadOrderController.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\SearchProductController.cs" />
+    <Compile Include="Controllers\SucursalProductoController.cs" />
     <Compile Include="Controllers\VoucherController.cs" />
     <Compile Include="DataBase\TransactionBase.cs" />
     <Compile Include="EntityFramework\Animalias.Context.cs">
@@ -333,6 +334,9 @@
     <Compile Include="EntityFramework\SubCategory.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\SucProducto.cs">
+      <DependentUpon>Animalias.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\TamanoMascota.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
@@ -386,9 +390,12 @@
     <Compile Include="Models\Manager\LoadOrderManager.cs" />
     <Compile Include="Models\Manager\ProviderManager.cs" />
     <Compile Include="Models\Manager\ReportVentas.cs" />
+    <Compile Include="Models\Manager\SucursalProductoManager.cs" />
     <Compile Include="Models\Manager\VoucherDetailManager.cs" />
     <Compile Include="Models\NotaPedidoModel.cs" />
     <Compile Include="Models\ProviderModel.cs" />
+    <Compile Include="Models\SucursalModel.cs" />
+    <Compile Include="Models\SucursalProductoModel.cs" />
     <Compile Include="Models\TamanoMascotaModel.cs" />
     <Compile Include="Models\TipoAnimalModel.cs" />
     <Compile Include="Models\VentaDiariaMesModel.cs" />
@@ -418,6 +425,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\Ico\new.ico" />
+    <Content Include="Content\images\Ico\save.ico" />
     <Content Include="Content\AddControl.css" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
@@ -458,6 +467,8 @@
     <Content Include="Content\images\Logo.jpg" />
     <Content Include="Content\images\logoHeader.jpg" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\images\Ico\delete %281%29.ico" />
+    <Content Include="Content\images\Ico\editnote_pencil_edi_6175.ico" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap3.3.7.min.js" />
     <Content Include="Content\css\jquery.dataTables.css" />
@@ -701,6 +712,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\ListProduct\SucursalProducto.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -756,7 +768,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="NewFolder1\" />
     <Folder Include="Views\SearchProduct\" />
+    <Folder Include="Views\SucursalProducto\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

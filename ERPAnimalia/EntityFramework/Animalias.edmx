@@ -185,6 +185,21 @@
           <Property Name="IdSubCategory" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="SucProducto">
+          <Key>
+            <PropertyRef Name="IdSucursalProducto" />
+          </Key>
+          <Property Name="IdSucursalProducto" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IdProducto" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IdSucursal" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="float" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'AnimaliaPetShop.dbo.Sucursal' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Sucursal">
+          <Property Name="IdSucursal" Type="int" />
+          <Property Name="Sucursal" Type="nvarchar" MaxLength="50" />
+        </EntityType>-->
         <EntityType Name="TamanoMascota">
           <Key>
             <PropertyRef Name="IdTamanoMascota" />
@@ -484,6 +499,7 @@
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SucProducto" EntityType="Self.SucProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TamanoMascota" EntityType="Self.TamanoMascota" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoAnimal" EntityType="Self.TipoAnimal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" Schema="dbo" store:Type="Tables" />
@@ -673,6 +689,7 @@
             <End Role="TamanoMascota" EntitySet="TamanoMascota" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <EntitySet Name="SucProducto" EntityType="AnimaliaPetShopModel.SucProducto" />
           </EntityContainer>
         <EntityType Name="FormaDePago">
           <Key>
@@ -1198,6 +1215,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SucProducto">
+          <Key>
+            <PropertyRef Name="IdSucursalProducto" />
+          </Key>
+          <Property Name="IdSucursalProducto" Type="Guid" Nullable="false" />
+          <Property Name="IdProducto" Type="Guid" Nullable="false" />
+          <Property Name="IdSucursal" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Double" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1480,6 +1506,16 @@
                 <ScalarProperty Name="Descripcion1" ColumnName="Descripcion1" />
                 <ScalarProperty Name="Marca" ColumnName="Marca" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SucProducto">
+            <EntityTypeMapping TypeName="AnimaliaPetShopModel.SucProducto">
+              <MappingFragment StoreEntitySet="SucProducto">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="IdSucursalProducto" ColumnName="IdSucursalProducto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
