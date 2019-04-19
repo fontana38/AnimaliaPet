@@ -15,22 +15,27 @@ namespace ERPAnimalia.EntityFramework
 using System;
     using System.Collections.Generic;
     
-public partial class SucProducto
+public partial class Sucursal
 {
 
-    public System.Guid IdSucursalProducto { get; set; }
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public Sucursal()
+    {
 
-    public System.Guid IdProducto { get; set; }
+        this.SucProducto = new HashSet<SucProducto>();
+
+    }
+
 
     public int IdSucursal { get; set; }
 
-    public Nullable<decimal> Cantidad { get; set; }
+    public string Nombre { get; set; }
 
 
 
-    public virtual Product Product { get; set; }
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual Sucursal Sucursal { get; set; }
+    public virtual ICollection<SucProducto> SucProducto { get; set; }
 
 }
 

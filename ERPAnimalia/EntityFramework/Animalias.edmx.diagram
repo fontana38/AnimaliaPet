@@ -37,13 +37,16 @@
         <AssociationConnector Association="AnimaliaPetShopModel.FK_UsuarioRoles_Usuario" />
         <EntityTypeShape EntityType="AnimaliaPetShopModel.TipoAnimal" Width="1.5" PointX="13.375" PointY="2.375" />
         <EntityTypeShape EntityType="AnimaliaPetShopModel.TamanoMascota" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AnimaliaPetShopModel.Product" Width="1.5" PointX="15.625" PointY="4.25" />
+        <EntityTypeShape EntityType="AnimaliaPetShopModel.Product" Width="1.5" PointX="15.625" PointY="4.125" />
+        <EntityTypeShape EntityType="AnimaliaPetShopModel.Sucursal" Width="1.5" PointX="15.625" PointY="1.125" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_Product_Category" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_IdClienteIdProducto_Product" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_IdProveedorProducto_Product" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_Product_SubCategory" />
         <AssociationConnector Association="AnimaliaPetShopModel.FK_Product_TamanoMascota" />
-        <EntityTypeShape EntityType="AnimaliaPetShopModel.SucProducto" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AnimaliaPetShopModel.SucProducto" Width="1.5" PointX="17.875" PointY="4.375" />
+        <AssociationConnector Association="AnimaliaPetShopModel.FK_SucProducto_Product" />
+        <AssociationConnector Association="AnimaliaPetShopModel.FK_SucProducto_Sucursal" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

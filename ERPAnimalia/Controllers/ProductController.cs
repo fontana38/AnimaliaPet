@@ -1,5 +1,5 @@
 ﻿using ERPAnimalia.Models;
-
+using ERPAnimalia.Models.Manager;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -13,11 +13,13 @@ namespace ERPAnimalia.Controllers
     public class ProductController : Controller
     {
         public ProductManager ProductManagers { get; set; }
-      
+        public SucursalManager SucursalManager { get; set; }
+
 
         public ProductController()
         {
-            ProductManagers = Factory.Factory.CreateProducManager();          
+            ProductManagers = Factory.Factory.CreateProducManager();
+            SucursalManager = Factory.SucursalFactory.CreateSucursalManager();        
         }
 
 
@@ -37,6 +39,7 @@ namespace ERPAnimalia.Controllers
                 product.Category = ProductManagers.GetCategory();
                 product.SubCategory = ProductManagers.GetSubCategory();
                 product.TamanoMascotaList = ProductManagers.GetTamañoMascota();
+                
 
                 ModelState.Remove("RentabilidadPesos");
                 ModelState.Remove("Rentabilidad");

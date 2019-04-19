@@ -75,6 +75,8 @@ public partial class AnimaliaPetShopEntities : DbContext
 
     public virtual DbSet<Product> Product { get; set; }
 
+    public virtual DbSet<Sucursal> Sucursal { get; set; }
+
     public virtual DbSet<SucProducto> SucProducto { get; set; }
 
 

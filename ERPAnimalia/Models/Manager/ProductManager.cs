@@ -202,6 +202,8 @@ namespace ERPAnimalia.Models
                 int subCategory = 0;
                 int tamañoMascota = 0;
 
+
+
                 var map = new List<ProductModels>();
 
                 map = MapProduct();
@@ -568,12 +570,38 @@ namespace ERPAnimalia.Models
         {
             lock (obj)
             {
+
                 var productList = db.Product.ToList();
                 var category = db.Category.ToList();
                 var subcategoria = db.SubCategory.ToList();
                 var tamanoList = db.TamanoMascota.ToList();
 
                 return MapperObject.CreateProductList(productList, category, subcategoria,tamanoList);
+            }
+        }
+
+
+        public List<ProductModels> MapProductBySucursal(List<SucursalProductoModel> sucPro)
+        {
+            List<Product> productList = new List<Product>();
+            Category category;
+            SubCategory subcategoria;
+            TamanoMascota tamanoList;
+            lock (obj)
+            {
+                
+                foreach (var item in sucPro)
+                {
+                    var productListItem = db.Product.Where(x => x.IdProducto == item.Product.IdProducto).First();
+                     category = db.Category.Where(x => x.IdCategory == item.Product.IdCategory).First();
+                    subcategoria = db.SubCategory.Where(x => x.IdSubCategory == item.Product.IdSubCategory).First();
+                    tamanoList = db.TamanoMascota.Where(x=> x.IdTamanoMascota==item.Product.IdTamanoMascota).First();
+                    productList.Add(productListItem);
+                }
+
+               
+
+                return MapperObject.CreateProductListBySucursal(productList, category, subcategoria, tamanoList);
             }
         }
 

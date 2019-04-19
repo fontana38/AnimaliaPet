@@ -48,7 +48,15 @@
                             location.href = '@Url.Action("Delete","Product")?id=' + id;
                         }
                     }
-                }
+                },
+                {
+                    width: 30, type: "icon", icon: "glyphicon glyphicon-home", align: 'center', events: {
+                     'click': function (e) {
+                         id = e.data.record.IdProducto;
+                         location.href = '@Url.Action("Index", "SucursalProducto")?id=' + id;
+                     }
+                 }
+        }
                 ],
                  selectionMethod: 'checkbox',
                  selectionType: 'multiple',
@@ -118,6 +126,11 @@
             </div>
         </div>
         <div class="panel-body">
+            <div class="form-group ">
+                <label for="desc">Sucursal:</label>
+                @Html.DropDownListFor(model => model.SucursalList.First().IdSucursal,
+             new SelectList(Model.SucursalList, "IdSucursal", "Nombre"), new { @class = "form-control", type = "text", placeholder = "Seleccione Bola,Suelto,Accesorios", @onchange = "Search()" })
+            </div>
             <form class="form-inline">
 
                 <div class="form-group ">

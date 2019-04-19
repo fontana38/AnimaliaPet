@@ -1,4 +1,5 @@
 ﻿using ERPAnimalia.Models;
+using ERPAnimalia.Models.Manager;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,9 @@ namespace ERPAnimalia.Controllers
 
         public List<ProductModels> records { get; set; }
 
-        
+        public SucursalManager sucuManager { get; set; }
+
+
 
 
 
@@ -27,6 +30,8 @@ namespace ERPAnimalia.Controllers
         {
             ListProductManagers = Factory.Factory.CreateListProducManager();
             ProductManagers = Factory.Factory.CreateProducManager();
+            sucuManager = Factory.SucursalFactory.CreateSucursalManager();
+            
         }
 
         // GET: ListProduct
@@ -39,6 +44,7 @@ namespace ERPAnimalia.Controllers
                 product.Category = ProductManagers.GetCategory();
                 product.TipoAnimalList = ProductManagers.GetTipoAnimal();
                 product.TamanoMascotaList = ProductManagers.GetTamañoMascota();
+                product.SucursalList = sucuManager.GetSucursal();
             }
            
             return View(product);

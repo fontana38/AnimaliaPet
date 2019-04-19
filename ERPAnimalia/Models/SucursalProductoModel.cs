@@ -7,8 +7,10 @@ namespace ERPAnimalia.Models
 {
     public class SucursalProductoModel
     {
-        public Guid IdSucursaProducto { get; set; }
+        public Guid IdSucursalProducto { get; set; }
         public ProductModels Product { get; set; }
         public SucursalModel Sucursal { get; set; }
+        public List<SucursalModel> ListSucModel { get; set; }
+        public decimal Cantidad { get; set; }
     }
 }

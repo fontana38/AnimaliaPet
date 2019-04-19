@@ -337,6 +337,9 @@
     <Compile Include="EntityFramework\SucProducto.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\Sucursal.cs">
+      <DependentUpon>Animalias.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\TamanoMascota.cs">
       <DependentUpon>Animalias.tt</DependentUpon>
     </Compile>
@@ -364,6 +367,7 @@
     <Compile Include="Enumeration.cs" />
     <Compile Include="Factory\LoadOrderFacory.cs" />
     <Compile Include="Factory\ReportFactory.cs" />
+    <Compile Include="Factory\SucursalFactory.cs" />
     <Compile Include="Factory\VoucherFactory.cs" />
     <Compile Include="Factory\Factory.cs" />
     <Compile Include="Global.asax.cs">
@@ -380,6 +384,8 @@
     <Compile Include="Interfaces\IListProduct.cs" />
     <Compile Include="Mapper\MapperObject.cs" />
     <Compile Include="Mapper\AutoMapperConfig.cs" />
+    <Compile Include="Mapper\SucursalMapeo.cs" />
+    <Compile Include="Mapper\SucursalProductoMapeo.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\DetailGrid.cs" />
@@ -390,6 +396,7 @@
     <Compile Include="Models\Manager\LoadOrderManager.cs" />
     <Compile Include="Models\Manager\ProviderManager.cs" />
     <Compile Include="Models\Manager\ReportVentas.cs" />
+    <Compile Include="Models\Manager\SucursalManager.cs" />
     <Compile Include="Models\Manager\SucursalProductoManager.cs" />
     <Compile Include="Models\Manager\VoucherDetailManager.cs" />
     <Compile Include="Models\NotaPedidoModel.cs" />

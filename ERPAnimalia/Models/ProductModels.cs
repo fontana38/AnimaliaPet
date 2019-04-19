@@ -87,6 +87,9 @@ namespace ERPAnimalia.Models
         public TamanoMascotaModel tamanoItem { get; set; }
 
 
+        public List<SucursalModel> SucursalList { get; set; }
+
+
         public string SubCategoryName { get; set; }
 
         public string tamanoName { get; set; }

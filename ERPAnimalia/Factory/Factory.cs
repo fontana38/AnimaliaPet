@@ -26,6 +26,7 @@ namespace ERPAnimalia.Factory
             return new PersonModels();
         }
 
+        
         public static List<ClienteModel>  ListClienteModels()
         {
             return new List<ClienteModel>();
@@ -149,13 +150,7 @@ namespace ERPAnimalia.Factory
 
         }
 
-        public static SucursalProductoModel CreateSucursalProductoModel()
-        {
-            var sucursalProducto = new SucursalProductoModel();
-           
-            return sucursalProducto;
-
-        }
+       
 
 
     }

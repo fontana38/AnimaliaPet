@@ -1,4 +1,4 @@
-﻿using ERPAnimalia.Models;
+﻿@using ERPAnimalia.Models;
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +9,14 @@
     <script src="~/Scripts/jquery-ui.js"></script>
 
     <link href="~/Content/css/product.css" rel="stylesheet" />
-    @model ProductModels
+    @model SucursalProductoModel
 </head>
 <body>
     <script type="text/javascript">
    
     </script>
 
-    @using (Html.BeginForm("SaveProduct", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+    @using (Html.BeginForm("", "SucursalProducto", FormMethod.Post, new { @class = "form-horizontal" }))
     {
 
         <div class="form-group">
@@ -26,27 +26,30 @@
 
             <div class="col-md-6">
 
-                <div class="form-group">
-                    <label class="col-md-4" for="pwd">Código </label>
-                    @Html.TextBoxFor(m => m.CodigoBarra, new { @class = "form-control", type = "text", placeholder = "Ingrese Codigo Barra", onkeyPress = "MyFunction();" })
-                </div>
+                
                 <div class="form-group">
                     <label class="col-md-4" for="pwd">Producto </label>
-                    @Html.LabelFor(m => m.CodigoBarra, new { @class = "form-control", type = "text", placeholder = "Ingrese Codigo Barra", onkeyPress = "MyFunction();" })
+                    @Html.TextBoxFor(m => m.Product.Descripcion1, new { @readonly = "readonly",@class = "form-control", type = "text", placeholder = "Ingrese Codigo Barra o código Producto"})
                 </div>
                 <div class="form-group">
                     <label class="col-md-4" for="pwd">Cantidad Total </label>
-                    @Html.LabelFor(m => m.CodigoBarra, new { @class = "form-control", type = "text", placeholder = "Ingrese Codigo Barra", onkeyPress = "MyFunction();" })
+                    @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control", @readonly = "readonly" })
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4" for="desc">Cantidad Sucursal:</label>
-                    @Html.TextBoxFor(m => m.CantidadSucursal, new { @class = "form-control", type = "text", placeholder = "Ingrese Descripción1" })
+                    <label class="col-md-4" for="desc">Cantidad:</label>
+                    @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control", placeholder = "Ingrese Cantidad" })
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4" for="desc">Sucursal:</label>
-                    @Html.DropDownListFor(model => model.IdTamanoMascota,
-             new SelectList(Model.TamanoMascotaList, "IdTamanoMascota", "Nombre"), new { @class = "form-control", type = "text", placeholder = "Seleccione Cachorro o Adulto" })
+                    <label class="col-md-4" for="desc">Sucursal Origen:</label>
+                    @Html.DropDownListFor(model => model.Sucursal.IdSucursal,
+             new SelectList(Model.ListSucModel, "IdSucursal", "Nombre"), new { @class = "form-control", type = "text", placeholder = "Seleccione Cachorro o Adulto" })
                 </div>
-
+                <div class="form-group">
+                    <label class="col-md-4" for="desc">Sucursal Destino:</label>
+                    @Html.DropDownListFor(model => model.Sucursal.IdSucursal,
+             new SelectList(Model.ListSucModel, "IdSucursal", "Nombre"), new { @class = "form-control", type = "text", placeholder = "Seleccione Cachorro o Adulto" })
+                </div>
+                </div>
+}
 </body>
 </html>

@@ -53,6 +53,39 @@ namespace ERPAnimalia
        
         }
 
+
+        public static List<ProductModels> CreateProductListBySucursal(List<Product> product, Category category, SubCategory subCategory, TamanoMascota tamano)
+        {
+            try
+            {
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                var list = Factory.Factory.CreateListProduct();
+
+                foreach (var item in product)
+                {
+                    
+                    var productMap = mapper.Map<ProductModels>(item);
+                    var subCategoryMap = CreateSubCategory(subCategory);
+                    var categoryMap = CreateCategory(category);
+                    var tamanoMap = CreateTamano(tamano);
+
+                    productMap.CategoryItem = categoryMap;
+                    productMap.SubCategoryItem = subCategoryMap;
+                    productMap.CategoryName = categoryMap.Name;
+                    productMap.SubCategoryName = subCategoryMap.Name;
+                    productMap.tamanoName = tamanoMap.Nombre;
+
+                    list.Add(productMap);
+                }
+                return list;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message.ToString());
+            }
+
+        }
+
         public static CategoryModel CreateCategory(Category category)
         {
             try
@@ -481,6 +514,22 @@ namespace ERPAnimalia
                     item.NombreCompleto = item.Apellido + " " + item.Nombre;
                 }
                 return proveedor;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message.ToString());
+            }
+        }
+
+        public static List<SucursalModel> CreateSucursalList(List<Sucursal> listSucursal)
+        {
+            try
+            {
+
+                var mapper = AutoMapperConfig.MapperConfiguration.CreateMapper();
+                var sucursal = mapper.Map<List<SucursalModel>>(listSucursal);
+                
+                return sucursal;
             }
             catch (Exception e)
             {

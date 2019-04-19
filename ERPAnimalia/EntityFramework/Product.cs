@@ -26,6 +26,8 @@ public partial class Product
 
         this.IdProveedorProducto = new HashSet<IdProveedorProducto>();
 
+        this.SucProducto = new HashSet<SucProducto>();
+
     }
 
 
@@ -80,6 +82,10 @@ public partial class Product
     public virtual SubCategory SubCategory { get; set; }
 
     public virtual TamanoMascota TamanoMascota { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<SucProducto> SucProducto { get; set; }
 
 }
 
